@@ -1,68 +1,53 @@
-import { View, Text, Button, TextInput, StyleSheet, Alert } from 'react-native';
+import { View, Text, TextInput, Button ,StyleSheet} from 'react-native';
 import { useState } from 'react';
-import { userRegister } from '../../api/auth';
-export default function SignUp() {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+import { router } from 'expo-router';
 
-  const handleRegistration = async () => {
-    if (!name || !email || !password) {
-      Alert.alert(
-        "error",
-        "please fill all the fields"
-      );
+export default function Login() {
 
-      return;
-    }
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
 
-    try {
-      const result = await userRegister({
-        name: name,
-        email: email,
-        password: password,
-      });
+    return (
+        <View style={styles.con}>
+            <Text></Text>
+            <Text></Text>
+            <Text></Text>
+            <Text></Text>
+            <Text></Text>
 
-      console.log("user registration successful.", result);
+            <Text>Log in</Text>
 
-      Alert.alert(
-        "Success",
-        "registration successful."
-      );
+            {/* Email */}
+            <TextInput
+                placeholder="email"
+                value={email}
+                onChangeText={setEmail}
+                autoCapitalize="none"
+                keyboardType="email-address"
+            />
 
-      setName("");
-      setEmail("");
-      setPassword("");
-    } catch (error) {
-      console.log("registration failed .", error);
-    }
-  }
-  // console.log(API_URI);
-  return (
-    <View style={styles.con}>
-      <Text></Text>
-      <Text></Text>
-      <Text></Text>
-      <Text>Sign UP Page</Text>
-      <TextInput
-        placeholder='Name'
-        value={name}
-        onChangeText={setName} />
-      <TextInput
-        placeholder='email'
-        value={email}
-        onChangeText={setEmail} />
-      <TextInput
-        placeholder='password'
-        value={password}
-        onChangeText={setPassword} />
+            {/* Password */}
+            <TextInput
+                placeholder="password"
+                value={password}
+                onChangeText={setPassword}
+                secureTextEntry
+            />
 
-      <Button
-        title='sign up'
-        onPress={handleRegistration} />
+            {/* Login */}
+            <Button
+                title="Login"
+                // onPress={handleLogin}
+            />
 
-    </View>
-  )
+            {/* Signup */}
+            <Button
+                title="Signup"
+                onPress={() => router.push("/(tabs)/signup")}
+            />
+
+        </View>
+    );
 }
 
 const styles = StyleSheet.create({

@@ -1,4 +1,5 @@
 const User = require('../models/user.model');
+const Task = require('../models/task.model');
 
 //post /api/user/register
 const createUser = async(req,res) => {
@@ -57,4 +58,21 @@ const loginUser = async(req,res) => {
     }
 }
 
-module.exports = {createUser,loginUser};
+//POST /admin/create-task
+const createTask = async(req,res) => {
+    try{
+        const {title , description , employee , priority , location , dueDate , status} = req.body;
+
+        const newTask = new Task({title , description , employee , priority , location , dueDate , status});
+        await newTask.save();
+
+        res.status(200).json({
+            msg : 'task created successfully',
+            task : newTask
+        });
+    }catch(error){
+        res.status(500).json({msg : 'creation failed', error : error.message});
+    }
+}
+
+module.exports = {createUser,loginUser,createTask};

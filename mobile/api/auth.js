@@ -36,3 +36,31 @@ export const userRegister = async(userData) => {
         throw error;
     }
 }
+
+export const userLogin = async(userData) => {
+    try{
+        const response = await fetch(
+            `${API_URI}api/user/login`,
+            {
+                method:"POST",
+                headers:{
+                    "Content-Type" : "application/json"
+                },
+                body:JSON.stringify(userData),
+            }
+        )
+
+        const data = response.json();
+
+        if(!response.ok){
+            throw new Error(
+                data.message || "login failed"
+            )
+        }
+
+        return data;
+    }catch(error){
+        console.log("login failed.",error.message);
+        throw error;
+    }
+}

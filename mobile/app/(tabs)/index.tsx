@@ -1,11 +1,40 @@
-import { View, Text, TextInput, Button ,StyleSheet} from 'react-native';
+import { View, Text, TextInput, Button ,StyleSheet,Alert} from 'react-native';
 import { useState } from 'react';
 import { router } from 'expo-router';
+import { userLogin } from '../../api/auth';
 
 export default function Login() {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+
+    const handleLogin = async() => {
+        if(!email || !password){
+            Alert.alert(
+                "error",
+                "email or password is empty"
+            )
+        }
+
+        try{
+            const result = await userLogin({
+                email : email,
+                password : password,
+            })
+
+            console.log("login successful :",result);
+
+            Alert.alert(
+                "successful",
+                "successfully login"
+            )
+
+            setEmail("");
+            setPassword("");
+        }catch(error){
+            console.log("login failed :",error)
+        }
+    }
 
     return (
         <View style={styles.con}>
@@ -37,7 +66,7 @@ export default function Login() {
             {/* Login */}
             <Button
                 title="Login"
-                // onPress={handleLogin}
+                onPress={handleLogin}
             />
 
             {/* Signup */}

@@ -1,4 +1,4 @@
-import { View, Text, TextInput, Button ,StyleSheet,Alert} from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
 import { useState } from 'react';
 import { router } from 'expo-router';
 import { userLogin } from '../api/auth';
@@ -8,7 +8,7 @@ export default function Login() {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [role , setRole] = useState("");
+    const [role, setRole] = useState("");
 
     const handleLogin = async() => {
         if(!email || !password || !role){
@@ -30,8 +30,6 @@ export default function Login() {
                 JSON.stringify(result.user)
             )
 
-           
-
             console.log("login successful :",result);
 
             Alert.alert(
@@ -39,22 +37,24 @@ export default function Login() {
                 "successfully login"
             )
 
-             if(result.user.role === "admin"){
+            if(result.user.role === "admin"){
                 router.replace("/admin/dashboard");
             }else{
                 router.replace("/employee/task");
             }
-            // router.push('/(tabs)/dashboard');
 
             setEmail("");
             setPassword("");
             setRole("");
+
         }catch(error){
             console.log("login failed :",error)
+
             Alert.alert(
                 "error",
                 "Login failed check all fields!"
             )
+
             setEmail("");
             setPassword("");
             setRole("");
@@ -63,16 +63,12 @@ export default function Login() {
 
     return (
         <View style={styles.con}>
-            <Text></Text>
-            <Text></Text>
-            <Text></Text>
-            <Text></Text>
-            <Text></Text>
 
-            <Text>Log in</Text>
+            <Text style={styles.title}>Log in</Text>
 
             {/* Email */}
             <TextInput
+                style={styles.input}
                 placeholder="email"
                 value={email}
                 onChangeText={setEmail}
@@ -82,13 +78,16 @@ export default function Login() {
 
             {/* Password */}
             <TextInput
+                style={styles.input}
                 placeholder="password"
                 value={password}
                 onChangeText={setPassword}
                 secureTextEntry
             />
 
+            {/* Role */}
             <TextInput
+                style={styles.input}
                 placeholder="role"
                 value={role}
                 onChangeText={setRole}
@@ -96,26 +95,58 @@ export default function Login() {
             />
 
             {/* Login */}
-            <Button
-                title="Login"
-                onPress={handleLogin}
-            />
+            <View style={styles.button}>
+                <Button
+                    title="Login"
+                    onPress={handleLogin}
+                />
+            </View>
 
             {/* Signup */}
-            <Button
-                title="Signup"
-                onPress={() => router.push("/signup")}
-            />
+            <View style={styles.button}>
+                <Button
+                    title="Signup"
+                    onPress={() => router.push("/signup")}
+                />
+            </View>
 
         </View>
     );
 }
 
 const styles = StyleSheet.create({
-  con: {
-    width: '100%',
-    height: '100%',
-    backgroundColor: '#fff',
-    margin: 'auto'
-  }
-})
+
+    con: {
+        width: '100%',
+        height: '100%',
+        backgroundColor: '#fff',
+        margin: 'auto',
+        padding: 25,
+        justifyContent: 'center',
+    },
+
+    title: {
+        fontSize: 32,
+        fontWeight: 'bold',
+        textAlign: 'center',
+        marginBottom: 30,
+    },
+
+    input: {
+        height: 50,
+        borderWidth: 1,
+        borderColor: '#ccc',
+        borderRadius: 10,
+        paddingHorizontal: 15,
+        marginBottom: 15,
+        fontSize: 16,
+        backgroundColor: '#f8f8f8',
+    },
+
+    button: {
+        marginTop: 10,
+        borderRadius: 10,
+        overflow: 'hidden',
+    },
+
+});

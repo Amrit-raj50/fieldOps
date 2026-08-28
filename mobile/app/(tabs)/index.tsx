@@ -7,9 +7,10 @@ export default function Login() {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [role , setRole] = useState("");
 
     const handleLogin = async() => {
-        if(!email || !password){
+        if(!email || !password || !role){
             Alert.alert(
                 "error",
                 "email or password is empty"
@@ -20,6 +21,7 @@ export default function Login() {
             const result = await userLogin({
                 email : email,
                 password : password,
+                role : role,
             })
 
             console.log("login successful :",result);
@@ -28,6 +30,8 @@ export default function Login() {
                 "successful",
                 "successfully login"
             )
+
+            router.push('/(tabs)/dashboard');
 
             setEmail("");
             setPassword("");
@@ -60,6 +64,13 @@ export default function Login() {
                 placeholder="password"
                 value={password}
                 onChangeText={setPassword}
+                secureTextEntry
+            />
+
+            <TextInput
+                placeholder="role"
+                value={role}
+                onChangeText={setRole}
                 secureTextEntry
             />
 

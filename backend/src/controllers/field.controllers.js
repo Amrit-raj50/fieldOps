@@ -5,7 +5,7 @@ const createUser = async(req,res) => {
     try{
         const {name , email , password} = req.body;
 
-        const newUser = new User({name , email , password});
+        const newUser = new User({name , email , password });
         await newUser.save();
 
         res.status(201).json({
@@ -21,14 +21,26 @@ const createUser = async(req,res) => {
 //post /api/user/login
 const loginUser = async(req,res) => {
     try{
-        const {email , password} = req.body;
+        const {email , password , role} = req.body;
 
-        const user = await User.findOne({email , password});
+        const user = await User.findOne({email});
         console.log(user);
 
         if(!user){
             return res.status(401).json({
                 message : "invalid email or password"
+            })
+        }
+
+        if(user.role !== role){
+            return res.status(401).json({
+                message : "invalid role"
+            })
+        }
+
+        if(user.password !== password){
+            return res.status(401).json({
+                message : "invalid password or email"
             })
         }
 

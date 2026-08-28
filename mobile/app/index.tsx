@@ -1,7 +1,8 @@
 import { View, Text, TextInput, Button ,StyleSheet,Alert} from 'react-native';
 import { useState } from 'react';
 import { router } from 'expo-router';
-import { userLogin } from '../../api/auth';
+import { userLogin } from '../api/auth';
+import AsyncStaorage from '@react-native-async-storage/async-storage';
 
 export default function Login() {
 
@@ -22,7 +23,14 @@ export default function Login() {
                 email : email,
                 password : password,
                 role : role,
-            })
+            });
+
+            await AsyncStaorage.setItem(
+                "user",
+                JSON.stringify(result.user)
+            )
+
+           
 
             console.log("login successful :",result);
 
@@ -31,12 +39,25 @@ export default function Login() {
                 "successfully login"
             )
 
-            router.push('/(tabs)/dashboard');
+             if(result.user.role === "admin"){
+                router.replace("/admin/dashboard");
+            }else{
+                router.replace("/employee/task");
+            }
+            // router.push('/(tabs)/dashboard');
 
             setEmail("");
             setPassword("");
+            setRole("");
         }catch(error){
             console.log("login failed :",error)
+            Alert.alert(
+                "error",
+                "Login failed check all fields!"
+            )
+            setEmail("");
+            setPassword("");
+            setRole("");
         }
     }
 
@@ -83,7 +104,7 @@ export default function Login() {
             {/* Signup */}
             <Button
                 title="Signup"
-                onPress={() => router.push("/(tabs)/signup")}
+                onPress={() => router.push("/signup")}
             />
 
         </View>

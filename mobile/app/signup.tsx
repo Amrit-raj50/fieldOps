@@ -1,6 +1,6 @@
 import { View, Text, Button, TextInput, StyleSheet, Alert } from 'react-native';
 import { useState } from 'react';
-import { userRegister } from '../../api/auth';
+import { userRegister } from '../api/auth';
 export default function SignUp() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");

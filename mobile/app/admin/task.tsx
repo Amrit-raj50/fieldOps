@@ -25,9 +25,9 @@ export default function Task() {
         setData(d.data);
     }
 
-    useEffect(() => {
-        handleEmp();
-    }, []);
+    // useEffect(() => {
+    //     handleEmp();
+    // }, [employee]);
 
     const handleCreation = async() => {
         if(!title || !des || !employee || !priority || !location || !dueDate || !status ){
@@ -98,7 +98,13 @@ export default function Task() {
 
                 <Picker
                     selectedValue={employee}
-                    onValueChange={(itemValue) => setEmployee(itemValue)}
+                    onValueChange={(itemValue) => {
+                        setEmployee(itemValue)
+                        // handleEmp()
+                    }}
+                    onFocus={() => {
+                        handleEmp()
+                    }}
                     style={styles.picker}
                 >
                     <Picker.Item

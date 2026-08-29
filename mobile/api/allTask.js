@@ -3,7 +3,7 @@ import {API_URI} from './config';
 export const allTask = async() => {
     try{
         const response = await fetch(
-            `${API_URI}api/user/allTask`,
+            `${API_URI}api/user/all-task`,
             {
                 method : 'GET',
                 headers:{

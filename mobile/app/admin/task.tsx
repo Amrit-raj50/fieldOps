@@ -1,5 +1,5 @@
 import { View, Text, TextInput, Button, Alert, StyleSheet } from 'react-native';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { allEmp } from '../../api/allEmp';
 import { Picker } from '@react-native-picker/picker';
 // import {task}

@@ -3,38 +3,55 @@ import {
     View,
     Text,
     StyleSheet,
-    ScrollView
+    ScrollView,
+    RefreshControl
 } from 'react-native';
 import { useState, useEffect } from 'react';
 
 export default function TaskList() {
 
     const [data, setData] = useState<any[]>([]);
+    const [reFreshing, setReFreshing] = useState(false);
 
-    const handletask = async() => {
-        try{
+
+
+    const handletask = async () => {
+        try {
             const d = await allTask();
             setData(d.data);
             console.log(d.data);
-        }catch(error){
-            console.log("failed : ",error);
+        } catch (error) {
+            console.log("failed : ", error);
         }
     }
 
+    //on the initial fetching.....this will run this run only once
     useEffect(() => {
         handletask();
-    },[]);
+    }, []);
 
-    return(
-        <ScrollView style={styles.container}>
+    //on refresh .. this will run .....
+    const onRefresh = async () => {
+        setReFreshing(true);
+        await handletask();
+        setReFreshing(false);
+    }
+    return (
+        <ScrollView
+            style={styles.container}
+            refreshControl={
+                <RefreshControl
+                    refreshing={reFreshing}
+                    onRefresh={onRefresh} />
+            }>
 
             <Text style={styles.heading}>
                 All Tasks
             </Text>
 
-            {Array.isArray(data) && 
-                data.map((item,index) => {
-                    return(
+            {Array.isArray(data) &&
+                data.map((item, index) => {
+                    return (
                         <View key={index} style={styles.card}>
 
                             <View style={styles.header}>

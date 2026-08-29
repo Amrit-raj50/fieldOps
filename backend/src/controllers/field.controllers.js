@@ -95,4 +95,23 @@ const allEmployee = async(req,res) => {
     }
 }
 
-module.exports = {createUser,loginUser,createTask,allEmployee};
+//GET /all-task
+const allTask = async(req,res) => {
+    try{
+        const task = await Task.find();
+        if(!task){
+            return res.status(401).json({
+                mes : 'no task found',
+            })
+        }
+
+        return res.status(200).json({
+            success : true,
+            data : task,
+        })
+    }catch(error){
+        return res.status(404).json({ message : 'server error', error});
+    }
+}
+
+module.exports = {createUser,loginUser,createTask,allEmployee,allTask};

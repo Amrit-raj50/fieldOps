@@ -1,5 +1,5 @@
 import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
-import { useState } from 'react';
+import { useState ,useEffect} from 'react';
 import { router } from 'expo-router';
 import { userLogin } from '../api/auth';
 import AsyncStaorage from '@react-native-async-storage/async-storage';
@@ -9,6 +9,32 @@ export default function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [role, setRole] = useState("");
+
+    const checkLogin = async() => {
+        try{
+            const user = await AsyncStaorage.getItem("user");
+
+            if(!user){
+                return;
+            }
+
+            const parsedUser = JSON.parse(user);
+
+            if(parsedUser.role === 'admin'){
+                 router.replace("/admin/dashboard");
+            }else{
+                router.replace("/admin/dashboard");
+            }
+
+        }catch(error){
+            console.log("Error checking login : ",error);
+        }
+    }
+
+    useEffect(() => {
+        checkLogin();
+    },[]);
+    
 
     const handleLogin = async() => {
         if(!email || !password || !role){

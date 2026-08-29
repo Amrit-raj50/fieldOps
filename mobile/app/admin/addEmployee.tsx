@@ -1,7 +1,7 @@
 import { View, Text, Button, TextInput, StyleSheet, Alert } from 'react-native';
 import { useState } from 'react';
 import { addEmp } from '../../api/addEmp';
-import {router} from 'expo-router';
+// import {router} from 'expo-router';
 
 export default function SignUp() {
 

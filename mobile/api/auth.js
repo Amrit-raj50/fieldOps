@@ -1,6 +1,8 @@
 import { API_URI } from "./config";
 console.log(API_URI);
 
+
+//registration
 export const userRegister = async(userData) => {
     try{
         console.log("Sending request to : " , API_URI);
@@ -37,6 +39,8 @@ export const userRegister = async(userData) => {
     }
 }
 
+
+//login
 export const userLogin = async(userData) => {
     try{
         const response = await fetch(

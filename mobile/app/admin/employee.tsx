@@ -4,13 +4,17 @@ import {
     Text,
     Alert,
     StyleSheet,
-    ScrollView
+    ScrollView,
+    RefreshControl
 } from 'react-native';
 import { useState, useEffect } from 'react'
 
 export default function Employee() {
 
     const [data, setData] = useState<any[]>([]);
+
+    const [reFresh , setReFresh] = useState(false);
+
 
     const handleEmp = async () => {
         try {
@@ -26,12 +30,24 @@ export default function Employee() {
         }
     }
 
-    useEffect(() => {
+    useEffect(() => {//this is teh initial fetching.
         handleEmp();
     }, []);
 
+    const onRefresh = async() => {
+        setReFresh(true);
+        handleEmp();
+        setReFresh(false);
+    }
     return (
-        <ScrollView style={styles.container}>
+        <ScrollView
+         style={styles.container}
+         refreshControl={
+            <RefreshControl
+            refreshing={reFresh}
+            onRefresh={onRefresh}/>
+         }
+         >
 
             <Text style={styles.heading}>
                 Employees

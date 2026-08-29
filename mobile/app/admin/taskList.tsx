@@ -4,9 +4,13 @@ import {
     Text,
     StyleSheet,
     ScrollView,
-    RefreshControl
+    RefreshControl,
+    TouchableOpacity
 } from 'react-native';
 import { useState, useEffect } from 'react';
+import { router } from 'expo-router';
+
+
 
 export default function TaskList() {
 
@@ -36,6 +40,22 @@ export default function TaskList() {
         await handletask();
         setReFreshing(false);
     }
+
+    const handleIndTask = (id: string | number, title: string, description: string, employee: string, priority: string, location: string, dueDate: string, status: string,) => {
+        router.push({
+            pathname: '/admin/[task_id]',
+            params: {
+                task_id: id,
+                title,
+                description,
+                employee,
+                priority,
+                location,
+                dueDate,
+                status,
+            },
+        });
+    };
     return (
         <ScrollView
             style={styles.container}
@@ -53,51 +73,54 @@ export default function TaskList() {
                 data.map((item, index) => {
                     return (
                         <View key={index} style={styles.card}>
+                            <TouchableOpacity
+                                onPress={() => {
+                                    handleIndTask(item._id, item.title, item.description, item.employee, item.priority, item.location, item.dueDate, item.status)
+                                }}>
+                                <View style={styles.header}>
+                                    <Text style={styles.title}>
+                                        {item.title}
+                                    </Text>
 
-                            <View style={styles.header}>
-                                <Text style={styles.title}>
-                                    {item.title}
-                                </Text>
+                                    <View style={styles.priorityBadge}>
+                                        <Text style={styles.priorityText}>
+                                            {item.priority}
+                                        </Text>
+                                    </View>
+                                </View>
 
-                                <View style={styles.priorityBadge}>
-                                    <Text style={styles.priorityText}>
-                                        {item.priority}
+                                <View style={styles.divider} />
+
+                                <View style={styles.row}>
+                                    <Text style={styles.label}>
+                                        Employee
+                                    </Text>
+                                    <Text style={styles.value}>
+                                        {item.employee}
                                     </Text>
                                 </View>
-                            </View>
 
-                            <View style={styles.divider} />
-
-                            <View style={styles.row}>
-                                <Text style={styles.label}>
-                                    Employee
-                                </Text>
-                                <Text style={styles.value}>
-                                    {item.employee}
-                                </Text>
-                            </View>
-
-                            <View style={styles.row}>
-                                <Text style={styles.label}>
-                                    Location
-                                </Text>
-                                <Text style={styles.value}>
-                                    {item.location}
-                                </Text>
-                            </View>
-
-                            <View style={styles.row}>
-                                <Text style={styles.label}>
-                                    Status
-                                </Text>
-
-                                <View style={styles.statusBadge}>
-                                    <Text style={styles.statusText}>
-                                        {item.status}
+                                <View style={styles.row}>
+                                    <Text style={styles.label}>
+                                        Location
+                                    </Text>
+                                    <Text style={styles.value}>
+                                        {item.location}
                                     </Text>
                                 </View>
-                            </View>
 
+                                <View style={styles.row}>
+                                    <Text style={styles.label}>
+                                        Status
+                                    </Text>
+
+                                    <View style={styles.statusBadge}>
+                                        <Text style={styles.statusText}>
+                                            {item.status}
+                                        </Text>
+                                    </View>
+                                </View>
+                            </TouchableOpacity>
                         </View>
                     )
                 })

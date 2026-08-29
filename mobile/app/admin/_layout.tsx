@@ -40,6 +40,12 @@ export default function AdminLayout() {
           href: null,
         }}
       />
+
+      <Tabs.Screen
+        name="[emp_id]"
+        options={{
+          href: null,
+        }} />
     </Tabs>
   );
 }

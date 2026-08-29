@@ -5,15 +5,18 @@ import {
     Alert,
     StyleSheet,
     ScrollView,
-    RefreshControl
+    RefreshControl,
+    TouchableOpacity
 } from 'react-native';
-import { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react';
+import { router } from 'expo-router';
 
 export default function Employee() {
 
     const [data, setData] = useState<any[]>([]);
 
-    const [reFresh , setReFresh] = useState(false);
+    const [reFresh, setReFresh] = useState(false);
+
 
 
     const handleEmp = async () => {
@@ -34,86 +37,112 @@ export default function Employee() {
         handleEmp();
     }, []);
 
-    const onRefresh = async() => {
+    const onRefresh = async () => {
         setReFresh(true);
         handleEmp();
         setReFresh(false);
     }
+
+    const handleIndEmp = (id: string, name: string, email: string, password: string, phone: number, role: string, profileImage: string, isActive: boolean | string, lastLogin: Date | string) => {
+
+        router.push({
+            pathname: "/admin/[emp_id]",
+            params: {
+                id,
+                name,
+                email,
+                password,
+                phone,
+                role,
+                profileImage,
+                isActive: String(isActive),
+                lastLogin: String(lastLogin)
+            }
+        });
+    }
     return (
         <ScrollView
-         style={styles.container}
-         refreshControl={
-            <RefreshControl
-            refreshing={reFresh}
-            onRefresh={onRefresh}/>
-         }
-         >
+            style={styles.container}
+            refreshControl={
+                <RefreshControl
+                    refreshing={reFresh}
+                    onRefresh={onRefresh} />
+            }
+        >
 
             <Text style={styles.heading}>
                 Employees
             </Text>
 
+
             {Array.isArray(data) &&
                 data.map((item, index) => {
                     return (
-                        <View key={index} style={styles.card}>
 
-                            <View style={styles.avatar}>
-                                <Text style={styles.avatarText}>
-                                    {item.name?.charAt(0).toUpperCase()}
-                                </Text>
-                            </View>
-
-                            <View style={styles.info}>
-
-                                <Text style={styles.name}>
-                                    {item.name}
-                                </Text>
-
-                                <Text style={styles.email}>
-                                    {item.email}
-                                </Text>
-
-                                <Text style={styles.id}>
-                                    ID: {item._id}
-                                </Text>
-
-                                <View
-                                    style={[
-                                        styles.status,
-                                        item.isActive
-                                            ? styles.active
-                                            : styles.inactive
-                                    ]}
-                                >
-                                    <Text
-                                        style={[
-                                            styles.statusText,
-                                            item.isActive
-                                                ? styles.activeText
-                                                : styles.inactiveText
-                                        ]}
-                                    >
-                                        {item.isActive
-                                            ? 'Active'
-                                            : 'InActive'}
+                        <View key={index} >
+                            <TouchableOpacity style={styles.card}
+                                onPress={() => {
+                                    handleIndEmp(item._id, item.name, item.email, item.password, item.phone, item.role, item.profileImage, item.isActive, item.lastLogin);
+                                }}>
+                                <View style={styles.avatar}>
+                                    <Text style={styles.avatarText}>
+                                        {item.name?.charAt(0).toUpperCase()}
                                     </Text>
                                 </View>
 
-                                <Text style={styles.date}>
-                                    Created: {new Date(item.createdAt).toLocaleDateString()}
-                                </Text>
+                                <View style={styles.info}>
 
-                                <Text style={styles.date}>
-                                    Updated: {new Date(item.updatedAt).toLocaleDateString()}
-                                </Text>
+                                    <Text style={styles.name}>
+                                        {item.name}
+                                    </Text>
 
-                            </View>
+                                    <Text style={styles.email}>
+                                        {item.email}
+                                    </Text>
 
+                                    <Text style={styles.id}>
+                                        ID: {item._id}
+                                    </Text>
+
+                                    <View
+                                        style={[
+                                            styles.status,
+                                            item.isActive
+                                                ? styles.active
+                                                : styles.inactive
+                                        ]}
+                                    >
+                                        <Text
+                                            style={[
+                                                styles.statusText,
+                                                item.isActive
+                                                    ? styles.activeText
+                                                    : styles.inactiveText
+                                            ]}
+                                        >
+                                            {item.isActive
+                                                ? 'Active'
+                                                : 'InActive'}
+                                        </Text>
+                                    </View>
+
+                                    <Text style={styles.date}>
+                                        Created: {new Date(item.createdAt).toLocaleDateString()}
+                                    </Text>
+
+                                    <Text style={styles.date}>
+                                        Updated: {new Date(item.updatedAt).toLocaleDateString()}
+                                    </Text>
+
+                                </View>
+                            </TouchableOpacity>
                         </View>
+
+
                     )
                 })
             }
+
 
         </ScrollView>
     )

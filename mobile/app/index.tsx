@@ -23,7 +23,7 @@ export default function Login() {
             if(parsedUser.role === 'admin'){
                  router.replace("/admin/dashboard");
             }else{
-                router.replace("/admin/dashboard");
+                router.replace("/employee/task");
             }
 
         }catch(error){

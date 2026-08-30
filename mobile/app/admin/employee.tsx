@@ -48,6 +48,7 @@ export default function Employee() {
         router.push({
             pathname: "/admin/[emp_id]",
             params: {
+                emp_id: id,
                 id,
                 name,
                 email,

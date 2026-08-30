@@ -1,51 +1,11 @@
-import { Tabs } from "expo-router";
+import { Stack } from "expo-router";
 
 export default function AdminLayout() {
-  return (
-    <Tabs
-      screenOptions={
-        { headerShown: false }
-      }>
-      <Tabs.Screen
-        name="dashboard"
-        options={{
-          title: "Dashboard",
-        }}
-      />
-
-      <Tabs.Screen
-        name="employee"
-        options={{
-          title: "Employees",
-        }}
-      />
-
-      <Tabs.Screen
-        name="taskList"
-        options={{
-          title: "Tasks",
-        }}
-      />
-
-      <Tabs.Screen
-        name="task"
-        options={{
-          title: "Create Task",
-        }}
-      />
-
-      <Tabs.Screen
-        name="[task_id]"
-        options={{
-          href: null,
-        }}
-      />
-
-      <Tabs.Screen
-        name="[emp_id]"
-        options={{
-          href: null,
-        }} />
-    </Tabs>
-  );
+    return (
+        <Stack
+            screenOptions={{
+                headerShown: false,
+            }}
+        />
+    );
 }

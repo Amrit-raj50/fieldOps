@@ -1,5 +1,5 @@
 import MapView, { Marker } from "react-native-maps";
-import { allEmp } from "../../api/allEmp";
+import { allEmp } from "../../../api/allEmp";
 import {
     View,
     Text,

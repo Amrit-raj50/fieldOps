@@ -14,7 +14,7 @@ export const allTask = async() => {
 
         // console.log(response);
         const data = await response.json();
-        console.log(data);
+        // console.log(data);
 
         return data;
     }catch(error){

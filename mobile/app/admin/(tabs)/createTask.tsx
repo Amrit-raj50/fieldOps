@@ -1,9 +1,9 @@
 import { View, Text, TextInput, Button, Alert, StyleSheet } from 'react-native';
 import { useState } from 'react';
-import { allEmp } from '../../api/allEmp';
+import { allEmp } from '../../../api/allEmp';
 import { Picker } from '@react-native-picker/picker';
 // import {task}
-import { taskCreation } from '../../api/taskCreation';
+import { taskCreation } from '../../../api/taskCreation';
 
 type Employee = {
     name: string;

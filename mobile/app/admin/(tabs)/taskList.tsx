@@ -1,4 +1,4 @@
-import { allTask } from '../../api/allTask';
+import { allTask } from '../../../api/allTask';
 import {
     View,
     Text,
@@ -23,7 +23,7 @@ export default function TaskList() {
         try {
             const d = await allTask();
             setData(d.data);
-            console.log(d.data);
+            // console.log(d.data);
         } catch (error) {
             console.log("failed : ", error);
         }
@@ -43,7 +43,7 @@ export default function TaskList() {
 
     const handleIndTask = (id: string | number, title: string, description: string, employee: string, priority: string, location: string, dueDate: string, status: string,) => {
         router.push({
-            pathname: '/admin/[task_id]',
+            pathname: '/admin/task/[task_id]',
             params: {
                 task_id: id,
                 title,

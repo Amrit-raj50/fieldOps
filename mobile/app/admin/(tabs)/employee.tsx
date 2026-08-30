@@ -1,4 +1,4 @@
-import { allEmp } from "../../api/allEmp";
+import { allEmp } from "../../../api/allEmp";
 import {
     View,
     Text,
@@ -46,7 +46,7 @@ export default function Employee() {
     const handleIndEmp = (id: string, name: string, email: string, password: string, phone: number, role: string, profileImage: string, isActive: boolean | string, lastLogin: Date | string) => {
 
         router.push({
-            pathname: "/admin/[emp_id]",
+            pathname: "/admin/emp/[emp_id]",
             params: {
                 emp_id: id,
                 id,

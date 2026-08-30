@@ -126,7 +126,7 @@ const updateLoc = async (req, res) => {
                 longitude: longitude,
             },
             {
-                new: true,
+                returnDocument: 'after',
                 runValidators: true
             }
         );

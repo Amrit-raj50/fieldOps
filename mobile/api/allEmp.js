@@ -12,10 +12,10 @@ export const allEmp = async() => {
             }
         );
 
-        console.log(response);
+        // console.log(response);
         const data = await  response.json();
 
-        console.log(data);
+        // console.log(data);
         return data;
     }catch(error){
         console.log("failed to get :",error);

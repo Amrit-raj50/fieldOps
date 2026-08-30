@@ -40,8 +40,13 @@ const userSchema = new mongoose.Schema(
             type: Date,
             default: null,
         },
-        lastlocation: {
+        latitude: {
             type: Number,
+            default : null
+        },
+        longitude:{
+            type: Number,
+            default : null
         }
     },
     {

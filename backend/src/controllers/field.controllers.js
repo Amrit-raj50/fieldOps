@@ -2,116 +2,144 @@ const User = require('../models/user.model');
 const Task = require('../models/task.model');
 
 //post /api/user/register
-const createUser = async(req,res) => {
-    try{
-        const {name , email , password} = req.body;
+const createUser = async (req, res) => {
+    try {
+        const { name, email, password } = req.body;
 
-        const newUser = new User({name , email , password });
+        const newUser = new User({ name, email, password });
         await newUser.save();
 
         res.status(201).json({
-            msg : 'User successfully registered.',
-            user : newUser,
+            msg: 'User successfully registered.',
+            user: newUser,
         });
-    } catch(error) {
-        res.status(500).json({msg : 'server error.', error : error.message});
+    } catch (error) {
+        res.status(500).json({ msg: 'server error.', error: error.message });
     }
 }
 
 
 //post /api/user/login
-const loginUser = async(req,res) => {
-    try{
-        const {email , password , role} = req.body;
+const loginUser = async (req, res) => {
+    try {
+        const { email, password, role } = req.body;
 
-        const user = await User.findOne({email});
+        const user = await User.findOne({ email });
         console.log(user);
 
-        if(!user){
+        if (!user) {
             return res.status(401).json({
-                message : "invalid email or password"
+                message: "invalid email or password"
             })
         }
 
-        if(user.role !== role){
+        if (user.role !== role) {
             return res.status(401).json({
-                message : "invalid role"
+                message: "invalid role"
             })
         }
 
-        if(user.password !== password){
+        if (user.password !== password) {
             return res.status(401).json({
-                message : "invalid password or email"
+                message: "invalid password or email"
             })
         }
 
         return res.status(200).json({
-            message:"login successful",
+            message: "login successful",
             user
         });
 
-    }catch(error){
+    } catch (error) {
         res.status(500).json({
-            message:"login failed",
-            error : error.message
+            message: "login failed",
+            error: error.message
         })
     }
 }
 
 //POST /admin/create-task
-const createTask = async(req,res) => {
-    try{
-        const {title , description , employee , priority , location , dueDate , status} = req.body;
+const createTask = async (req, res) => {
+    try {
+        const { title, description, employee, priority, location, dueDate, status } = req.body;
 
-        const newTask = new Task({title , description , employee , priority , location , dueDate , status});
+        const newTask = new Task({ title, description, employee, priority, location, dueDate, status });
         await newTask.save();
 
         res.status(200).json({
-            msg : 'task created successfully',
-            task : newTask
+            msg: 'task created successfully',
+            task: newTask
         });
-    }catch(error){
-        res.status(500).json({msg : 'creation failed', error : error.message});
+    } catch (error) {
+        res.status(500).json({ msg: 'creation failed', error: error.message });
     }
 }
 
 //GET /all-employee
-const allEmployee = async(req,res) => {
-    try{
-        const employee = await User.find({role : 'employee'});
+const allEmployee = async (req, res) => {
+    try {
+        const employee = await User.find({ role: 'employee' });
 
-        if(!employee){
+        if (!employee) {
             return res.status(401).json({
-                mes : 'no employee found'
+                mes: 'no employee found'
             })
         }
 
         return res.status(200).json({
-            success : true,
-            data : employee
+            success: true,
+            data: employee
         });
-    }catch(error){
-        return res.status(404).json({message: 'server error', error});
+    } catch (error) {
+        return res.status(404).json({ message: 'server error', error });
     }
 }
 
 //GET /all-task
-const allTask = async(req,res) => {
-    try{
+const allTask = async (req, res) => {
+    try {
         const task = await Task.find();
-        if(!task){
+        if (!task) {
             return res.status(401).json({
-                mes : 'no task found',
+                mes: 'no task found',
             })
         }
 
         return res.status(200).json({
-            success : true,
-            data : task,
+            success: true,
+            data: task,
         })
-    }catch(error){
-        return res.status(404).json({ message : 'server error', error});
+    } catch (error) {
+        return res.status(404).json({ message: 'server error', error });
     }
 }
 
-module.exports = {createUser,loginUser,createTask,allEmployee,allTask};
+// PATCH /update-loc
+const updateLoc = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { latitude, longitude } = req.body;
+        const user = await User.findByIdAndUpdate(
+            id,
+            {
+                latitude: latitude,
+                longitude: longitude,
+            },
+            {
+                new: true,
+                runValidators: true
+            }
+        );
+
+        if (!user) {
+            return res.status(401).json({
+                msg: 'user not found'
+            })
+        }
+        res.status(200).json({ msg: 'location updated', user });
+    } catch (error) {
+        res.status(500).json({ msg: 'update failed', error: error.message });
+    }
+}
+
+module.exports = { createUser, loginUser, createTask, allEmployee, allTask ,updateLoc};

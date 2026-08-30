@@ -3,6 +3,7 @@ import * as Location from "expo-location";
 import { useEffect, useState } from "react";
 import { updateLoc } from "../../api/updateLoc";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import MapView,{Marker} from  'react-native-maps'
 
 export default function LocationPage() {
 
@@ -92,20 +93,25 @@ export default function LocationPage() {
     }, [latitude]);
 
     return (
-        <View>
-            <Text>Current Location</Text>
-
-            {/* <Text>
-                Employee ID: {id}
-            </Text> */}
-
-            <Text>
-                Latitude: {latitude}
-            </Text>
-
-            <Text>
-                Longitude: {longitude}
-            </Text>
+        <View style={{ flex : 1}}>
+            <MapView
+            style={{flex : 1}}
+            region={{
+                latitude:latitude ?? 0,
+                longitude: longitude ?? 0,
+                latitudeDelta: 0.01,
+                longitudeDelta: 0.01,
+            }}
+            >
+                <Marker
+                coordinate={{
+                    latitude : latitude ?? 0,
+                    longitude : longitude ?? 0
+                }}
+                title="Employee"
+                description="Employee current location"
+                />
+            </MapView>
         </View>
     );
 }

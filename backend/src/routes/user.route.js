@@ -10,6 +10,6 @@ router.post('/admin/create-task',createTask);
 router.get('/all-employee' , allEmployee);
 router.get('/all-task', allTask);
 
-router.patch('/update-loc', updateLoc);
+router.patch('/update-loc/:id', updateLoc);
 
 module.exports = router;

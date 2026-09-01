@@ -44,6 +44,10 @@ const taskSchema = new mongoose.Schema(
             type:String,
             enum:["Pending","In Progress" , "Completed","Cancled"],
             default:"pending",
+        },
+        empId : {
+            type:String,
+            default:null
         }
     },
     {

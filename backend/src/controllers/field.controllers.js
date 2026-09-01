@@ -192,4 +192,44 @@ const delEmp = async(req,res) => {
     }
 }
 
-module.exports = { createUser, loginUser, createTask, allEmployee, allTask ,updateLoc , delEmp , updateStatus};
+//DELETE /del-task/:id
+const delTask = async(req,res) => {
+    try{
+        const taskId = req.params;
+
+        const index = await Task.findByIdAndDelete(taskId.id);
+
+        return res.status(200).json({msg : "task deletion successful"});
+    }catch(error){
+        return res.status(404).json({msg : error});
+    }
+}
+
+//PATCH /update-emp/:id
+const updateEmp = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { empId } = req.body;
+        const task = await Task.findByIdAndUpdate(
+            id,
+            {
+                status : status
+            },
+            {
+                returnDocument: 'after',
+                runValidators: true
+            }
+        );
+
+        if (!task) {
+            return res.status(401).json({
+                msg: 'task not found'
+            })
+        }
+        res.status(200).json({ msg: 'status updated', task });
+    } catch (error) {
+        res.status(500).json({ msg: 'update failed', error: error.message });
+    }
+}
+
+module.exports = { createUser, loginUser, createTask, allEmployee, allTask ,updateLoc , delEmp , updateStatus , delTask};

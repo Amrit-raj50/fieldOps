@@ -7,6 +7,7 @@ import { taskCreation } from '../../../api/taskCreation';
 
 type Employee = {
     name: string;
+    _id : string
 };
 
 export default function Task() {
@@ -17,6 +18,7 @@ export default function Task() {
     const [location, setLocation] = useState("");
     const [dueDate, setDeuDate] = useState("");
     const [status, setStatus] = useState("");
+    const [empId , setEmpId] = useState("");
     const [data, setData] = useState<Employee[]>([]);
 
     const handleEmp = async () => {
@@ -30,7 +32,7 @@ export default function Task() {
     // }, [employee]);
 
     const handleCreation = async() => {
-        if(!title || !des || !employee || !priority || !location || !dueDate || !status ){
+        if(!title || !des || !employee || !priority || !location || !dueDate || !status || !empId){
             Alert.alert(
                 "error",
                 "all fields must be field"
@@ -46,6 +48,7 @@ export default function Task() {
                 location : location,
                 dueDate : dueDate,
                 status : status,
+                empId : empId
             });
 
             console.log("creation seuccessful : ",result);
@@ -116,9 +119,9 @@ export default function Task() {
                     {Array.isArray(data) &&
                         data.map((item) => (
                             <Picker.Item
-                                key={item.name}
+                                key={item._id}
                                 label={item.name}
-                                value={item.name}
+                                value={item._id}
                             />
                         ))}
                 </Picker>

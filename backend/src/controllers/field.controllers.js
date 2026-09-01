@@ -142,4 +142,54 @@ const updateLoc = async (req, res) => {
     }
 }
 
-module.exports = { createUser, loginUser, createTask, allEmployee, allTask ,updateLoc};
+
+//PATCH /status/:id
+// const updateStatus = async (req, res) => {
+//     try {
+//         const { id } = req.params;
+//         const { status } = req.body;
+//         const task = await Task.findByIdAndUpdate(
+//             id,
+//             {
+//                 status : status
+//             },
+//             {
+//                 returnDocument: 'after',
+//                 runValidators: true
+//             }
+//         );
+
+//         if (!task) {
+//             return res.status(401).json({
+//                 msg: 'task not found'
+//             })
+//         }
+//         res.status(200).json({ msg: 'status updated', task });
+//     } catch (error) {
+//         res.status(500).json({ msg: 'update failed', error: error.message });
+//     }
+// }
+
+//DELETE /del/:id
+const delEmp = async(req,res) => {
+    try{
+        const userId = req.params;
+        // JSON.stringify(req.params);
+        console.log(userId);
+        const index = await User.findByIdAndDelete(userId.id);
+        // console.log(index);
+
+        // if(index === -1){
+        //     return res.status(400).json({msg : "employee not found."});
+        // }
+
+        // User.splice(index,1);
+
+        return res.status(200).json({msg : "employee removed from the database successfuly"});
+    }catch(error){
+        console.log(error);
+        return res.status(404).json({msg : error});
+    }
+}
+
+module.exports = { createUser, loginUser, createTask, allEmployee, allTask ,updateLoc , delEmp , updateStatus};

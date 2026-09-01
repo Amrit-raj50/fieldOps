@@ -18,7 +18,7 @@ export default function Task() {
     const [location, setLocation] = useState("");
     const [dueDate, setDeuDate] = useState("");
     const [status, setStatus] = useState("");
-    // const [empId , setEmpId] = useState("");
+    const [empId , setEmpId] = useState("");
     const [data, setData] = useState<Employee[]>([]);
 
     const handleEmp = async () => {
@@ -32,7 +32,7 @@ export default function Task() {
     // }, [employee]);
 
     const handleCreation = async() => {
-        if(!title || !des || !employee || !priority || !location || !dueDate || !status ){
+        if(!title || !des || !employee || !priority || !location || !dueDate || !status || !empId){
             Alert.alert(
                 "error",
                 "all fields must be field"
@@ -48,7 +48,7 @@ export default function Task() {
                 location : location,
                 dueDate : dueDate,
                 status : status,
-                // empId : empId
+                empId : empId
             });
 
             console.log("creation seuccessful : ",result);
@@ -97,6 +97,37 @@ export default function Task() {
             />
 
             <View style={styles.pickerContainer}>
+                <Text style={styles.label}>EmployeeId</Text>
+
+                <Picker
+                    selectedValue={employee}
+                    onValueChange={(itemValue) => {
+                        setEmpId(itemValue)
+                        // handleEmp()
+                    }}
+                    onFocus={() => {
+                        handleEmp()
+                    }}
+                    style={styles.picker}
+                >
+                    <Picker.Item
+                        label="Select an employeeId"
+                        value={null}
+                        color="#999"
+                    />
+
+                    {Array.isArray(data) &&
+                        data.map((item) => (
+                            <Picker.Item
+                                key={item._id}
+                                label={item.name}
+                                value={item._id}
+                            />
+                        ))}
+                </Picker>
+            </View>
+
+            <View style={styles.pickerContainer}>
                 <Text style={styles.label}>Employee</Text>
 
                 <Picker
@@ -111,7 +142,7 @@ export default function Task() {
                     style={styles.picker}
                 >
                     <Picker.Item
-                        label="Select an employee..."
+                        label="Select an employeeId"
                         value={null}
                         color="#999"
                     />
@@ -121,7 +152,7 @@ export default function Task() {
                             <Picker.Item
                                 key={item._id}
                                 label={item.name}
-                                value={item._id}
+                                value={item.name}
                             />
                         ))}
                 </Picker>

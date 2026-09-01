@@ -41,7 +41,7 @@ export default function TaskList() {
         setReFreshing(false);
     }
 
-    const handleIndTask = (id: string | number, title: string, description: string, employee: string, priority: string, location: string, dueDate: string, status: string,) => {
+    const handleIndTask = (id: string | number, title: string, description: string, employee: string, priority: string, location: string, dueDate: string, status: string, empId : string) => {
         router.push({
             pathname: '/admin/task/[task_id]',
             params: {
@@ -53,6 +53,7 @@ export default function TaskList() {
                 location,
                 dueDate,
                 status,
+                empId
             },
         });
     };
@@ -75,7 +76,7 @@ export default function TaskList() {
                         <View key={index} style={styles.card}>
                             <TouchableOpacity
                                 onPress={() => {
-                                    handleIndTask(item._id, item.title, item.description, item.employee, item.priority, item.location, item.dueDate, item.status)
+                                    handleIndTask(item._id, item.title, item.description, item.employee, item.priority, item.location, item.dueDate, item.status,item.empId)
                                 }}>
                                 <View style={styles.header}>
                                     <Text style={styles.title}>
@@ -99,6 +100,14 @@ export default function TaskList() {
                                         {item.employee}
                                     </Text>
                                 </View>
+                                <View style={styles.row}>
+                                    <Text style={styles.label}>
+                                        EmployeeId
+                                    </Text>
+                                    <Text style={styles.value}>
+                                        {item.empId}
+                                    </Text>
+                                </View>
 
                                 <View style={styles.row}>
                                     <Text style={styles.label}>
@@ -119,6 +128,7 @@ export default function TaskList() {
                                             {item.status}
                                         </Text>
                                     </View>
+                                    
                                 </View>
                             </TouchableOpacity>
                         </View>

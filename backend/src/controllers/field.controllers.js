@@ -61,9 +61,9 @@ const loginUser = async (req, res) => {
 //POST /admin/create-task
 const createTask = async (req, res) => {
     try {
-        const { title, description, employee, priority, location, dueDate, status } = req.body;
+        const { title, description, employee, priority, location, dueDate, status ,empId} = req.body;
 
-        const newTask = new Task({ title, description, employee, priority, location, dueDate, status });
+        const newTask = new Task({ title, description, employee, priority, location, dueDate, status , empId});
         await newTask.save();
 
         res.status(200).json({

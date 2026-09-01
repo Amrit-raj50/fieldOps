@@ -65,6 +65,7 @@ export default function Task() {
             setLocation("")
             setDeuDate("")
             setStatus("")
+            setEmpId("")
         }catch(error){
             console.log("Error: ",error);
             Alert.alert(
@@ -103,6 +104,7 @@ export default function Task() {
                     selectedValue={employee}
                     onValueChange={(itemValue) => {
                         setEmpId(itemValue)
+                        console.log(empId);
                         // handleEmp()
                     }}
                     onFocus={() => {
@@ -134,6 +136,7 @@ export default function Task() {
                     selectedValue={employee}
                     onValueChange={(itemValue) => {
                         setEmployee(itemValue)
+                        console.log(employee);
                         // handleEmp()
                     }}
                     onFocus={() => {

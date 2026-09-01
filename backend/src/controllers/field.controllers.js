@@ -213,7 +213,7 @@ const updateEmp = async (req, res) => {
         const task = await Task.findByIdAndUpdate(
             id,
             {
-                status : status
+                empId : empId
             },
             {
                 returnDocument: 'after',
@@ -226,10 +226,38 @@ const updateEmp = async (req, res) => {
                 msg: 'task not found'
             })
         }
-        res.status(200).json({ msg: 'status updated', task });
+        res.status(200).json({ msg: 'employeeId  updated', task });
     } catch (error) {
-        res.status(500).json({ msg: 'update failed', error: error.message });
+        res.status(500).json({ msg: 'updation failed', error: error.message });
     }
 }
 
-module.exports = { createUser, loginUser, createTask, allEmployee, allTask ,updateLoc , delEmp , updateStatus , delTask};
+//PATCH /update-name/:id
+const updateName = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { name } = req.body;
+        const task = await Task.findByIdAndUpdate(
+            id,
+            {
+                name : name
+            },
+            {
+                returnDocument: 'after',
+                runValidators: true
+            }
+        );
+
+        if (!task) {
+            return res.status(401).json({
+                msg: 'task not found'
+            })
+        }
+        res.status(200).json({ msg: 'name  updated', task });
+    } catch (error) {
+        res.status(500).json({ msg: 'updation failed', error: error.message });
+    }
+}
+
+
+module.exports = { createUser, loginUser, createTask, allEmployee, allTask ,updateLoc , delEmp , updateStatus , delTask, updateEmp , updateName};

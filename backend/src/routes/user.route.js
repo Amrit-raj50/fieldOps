@@ -11,7 +11,7 @@ router.get('/all-employee' , allEmployee);
 router.get('/all-task', allTask);
 
 router.patch('/update-loc/:id', updateLoc);
-// router.patch('/status/:id' , updateStatus);
+router.patch('/status/:id' , updateStatus);
 
 router.delete('/del/:id' , delEmp);
 

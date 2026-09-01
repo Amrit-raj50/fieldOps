@@ -144,31 +144,31 @@ const updateLoc = async (req, res) => {
 
 
 //PATCH /status/:id
-// const updateStatus = async (req, res) => {
-//     try {
-//         const { id } = req.params;
-//         const { status } = req.body;
-//         const task = await Task.findByIdAndUpdate(
-//             id,
-//             {
-//                 status : status
-//             },
-//             {
-//                 returnDocument: 'after',
-//                 runValidators: true
-//             }
-//         );
+const updateStatus = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { status } = req.body;
+        const task = await Task.findByIdAndUpdate(
+            id,
+            {
+                status : status
+            },
+            {
+                returnDocument: 'after',
+                runValidators: true
+            }
+        );
 
-//         if (!task) {
-//             return res.status(401).json({
-//                 msg: 'task not found'
-//             })
-//         }
-//         res.status(200).json({ msg: 'status updated', task });
-//     } catch (error) {
-//         res.status(500).json({ msg: 'update failed', error: error.message });
-//     }
-// }
+        if (!task) {
+            return res.status(401).json({
+                msg: 'task not found'
+            })
+        }
+        res.status(200).json({ msg: 'status updated', task });
+    } catch (error) {
+        res.status(500).json({ msg: 'update failed', error: error.message });
+    }
+}
 
 //DELETE /del/:id
 const delEmp = async(req,res) => {

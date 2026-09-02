@@ -317,6 +317,36 @@ const myTask = async(req,res) => {
     }
 }
 
+//PATCH /evedince/:id
+const postEvidence = async(req,res) => {
+    try{
+        const taskId = req.params;
+        console.log(taskId.id);
+        // console.log(taskId);
+        const {evidence} = req.body;
+        console.log(evidence);
+
+        const task = await Task.findByIdAndUpdate(
+            taskId.id,
+            {
+                evidence : evidence,
+            },
+            {
+                returnDocument : 'after',
+                runValidators : true,
+            }
+        );
+
+        if(!task){
+            return res.status(400).json({msg : "task not found"});
+        }
+
+        return res.status(200).json({msg : "evidence update successfully " , task});
+    }catch(error){
+        return res.status(400).json({msg : error});
+    }
+}
+
 module.exports = { 
     createUser, 
     loginUser, 
@@ -331,5 +361,6 @@ module.exports = {
     updateName , 
     profile,
     getTask,
-    myTask
+    myTask,
+    postEvidence
 };

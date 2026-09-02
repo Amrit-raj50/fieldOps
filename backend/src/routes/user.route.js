@@ -15,7 +15,8 @@ const {
     updateName , 
     profile,
     getTask,
-    myTask
+    myTask,
+    postEvidence
 } = require('../controllers/field.controllers');
 
 router.post('/register',createUser);
@@ -32,6 +33,8 @@ router.patch('/update-loc/:id', updateLoc);
 router.patch('/status/:id' , updateStatus);
 router.patch('/update-emp/:id' , updateEmp);
 router.patch('/update-name/:id' , updateName);
+router.patch('/update-evidence/:id',postEvidence);
+
 
 router.delete('/del/:id' , delEmp);
 router.delete('/del-task/:id' , delTask);

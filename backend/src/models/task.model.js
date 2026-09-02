@@ -48,6 +48,10 @@ const taskSchema = new mongoose.Schema(
         empId : {
             type:String,
             default:null
+        },
+        evidence:{
+            type:String,
+            default:null
         }
     },
     {

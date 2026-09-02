@@ -1,7 +1,7 @@
 const User = require('../models/user.model');
 const Task = require('../models/task.model');
 
-//post /api/user/register
+//1)post /api/user/register
 const createUser = async (req, res) => {
     try {
         const { name, email, password } = req.body;
@@ -19,7 +19,7 @@ const createUser = async (req, res) => {
 }
 
 
-//post /api/user/login
+//2)post /api/user/login
 const loginUser = async (req, res) => {
     try {
         const { email, password, role } = req.body;
@@ -58,7 +58,7 @@ const loginUser = async (req, res) => {
     }
 }
 
-//POST /admin/create-task
+//3)POST /admin/create-task
 const createTask = async (req, res) => {
     try {
         const { title, description, employee, priority, location, dueDate, status ,empId} = req.body;
@@ -75,7 +75,7 @@ const createTask = async (req, res) => {
     }
 }
 
-//GET /all-employee
+//4)GET /all-employee
 const allEmployee = async (req, res) => {
     try {
         const employee = await User.find({ role: 'employee' });
@@ -95,7 +95,7 @@ const allEmployee = async (req, res) => {
     }
 }
 
-//GET /all-task
+//5)GET /all-task
 const allTask = async (req, res) => {
     try {
         const task = await Task.find();
@@ -114,7 +114,7 @@ const allTask = async (req, res) => {
     }
 }
 
-// PATCH /update-loc
+//6) PATCH /update-loc
 const updateLoc = async (req, res) => {
     try {
         const { id } = req.params;
@@ -143,7 +143,7 @@ const updateLoc = async (req, res) => {
 }
 
 
-//PATCH /status/:id
+//7)PATCH /status/:id
 const updateStatus = async (req, res) => {
     try {
         const { id } = req.params;
@@ -170,7 +170,7 @@ const updateStatus = async (req, res) => {
     }
 }
 
-//DELETE /del/:id
+//8)DELETE /del/:id
 const delEmp = async(req,res) => {
     try{
         const userId = req.params;
@@ -192,7 +192,7 @@ const delEmp = async(req,res) => {
     }
 }
 
-//DELETE /del-task/:id
+//9)DELETE /del-task/:id
 const delTask = async(req,res) => {
     try{
         const taskId = req.params;
@@ -205,7 +205,7 @@ const delTask = async(req,res) => {
     }
 }
 
-//PATCH /update-emp/:id
+//10)PATCH /update-emp/:id
 const updateEmp = async (req, res) => {
     try {
         const { id } = req.params;
@@ -232,7 +232,7 @@ const updateEmp = async (req, res) => {
     }
 }
 
-//PATCH /update-name/:id
+//11)PATCH /update-name/:id
 const updateName = async (req, res) => {
     try {
         const { id } = req.params;
@@ -260,7 +260,7 @@ const updateName = async (req, res) => {
 }
 
 
-//GET /me/:id
+//12)GET /me/:id
 const profile = async(req,res) => {
     try{
         const userId = req.params;
@@ -281,7 +281,7 @@ const profile = async(req,res) => {
     }
 }
 
-// GET /task/:id
+//13) GET /task/:id
 const getTask = async(req,res) => {
     try{
         const taskId = req.params;
@@ -297,7 +297,7 @@ const getTask = async(req,res) => {
     }
 }
 
-//GET /myTask/:id
+//14)GET /myTask/:id
 const myTask = async(req,res) => {
     try{
         const emId = req.params;
@@ -317,7 +317,7 @@ const myTask = async(req,res) => {
     }
 }
 
-//PATCH /evedince/:id
+//15)PATCH /evedince/:id
 const postEvidence = async(req,res) => {
     try{
         const taskId = req.params;
@@ -347,7 +347,7 @@ const postEvidence = async(req,res) => {
     }
 }
 
-//PATCH /accept/:id
+//16)PATCH /accept/:id
 const updateAccept = async(req,res) => {
     try{
         const taskId = req.params;

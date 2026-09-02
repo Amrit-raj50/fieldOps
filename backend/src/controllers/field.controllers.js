@@ -260,4 +260,56 @@ const updateName = async (req, res) => {
 }
 
 
-module.exports = { createUser, loginUser, createTask, allEmployee, allTask ,updateLoc , delEmp , updateStatus , delTask, updateEmp , updateName};
+//GET /me/:id
+const profile = async(req,res) => {
+    try{
+        const userId = req.params;
+        console.log(userId.id);
+
+        const user = await User.findById(userId.id);
+        console.log(user);
+
+        if(!user){
+            return res.status(400).json({msg : "user not found"});
+        }
+
+        console.log(user);
+        return res.status(200).json({msg : "get current user",user});
+    }catch(error){
+        console.log(error);
+        return res.status(404).json({msg : error});
+    }
+}
+
+//GET /task/:id
+// const getTask = async(req,res) => {
+//     try{
+//         const taskId = req.params;
+//         const task = await Task.findById(taskId.id);
+
+//         if(!task){
+//             return res.status(400).json({msg : "task not found"})
+//         }
+
+//         return res.status(200).json({msg : "task found : " , task});
+//     }catch(error){
+//         return res.status(404).json({msg : error});
+//     }
+// }
+
+
+module.exports = { 
+    createUser, 
+    loginUser, 
+    createTask, 
+    allEmployee, 
+    allTask ,
+    updateLoc , 
+    delEmp , 
+    updateStatus , 
+    delTask, 
+    updateEmp , 
+    updateName , 
+    profile,
+    // getTask
+};

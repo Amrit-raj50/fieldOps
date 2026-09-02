@@ -281,21 +281,21 @@ const profile = async(req,res) => {
     }
 }
 
-//GET /task/:id
-// const getTask = async(req,res) => {
-//     try{
-//         const taskId = req.params;
-//         const task = await Task.findById(taskId.id);
+// GET /task/:id
+const getTask = async(req,res) => {
+    try{
+        const taskId = req.params;
+        const task = await Task.findById(taskId.id);
 
-//         if(!task){
-//             return res.status(400).json({msg : "task not found"})
-//         }
+        if(!task){
+            return res.status(400).json({msg : "task not found"})
+        }
 
-//         return res.status(200).json({msg : "task found : " , task});
-//     }catch(error){
-//         return res.status(404).json({msg : error});
-//     }
-// }
+        return res.status(200).json({msg : "task found : " , task});
+    }catch(error){
+        return res.status(404).json({msg : error});
+    }
+}
 
 
 module.exports = { 
@@ -311,5 +311,5 @@ module.exports = {
     updateEmp , 
     updateName , 
     profile,
-    // getTask
+    getTask
 };

@@ -1,7 +1,21 @@
 const express = require('express');
 const router = express.Router();
 
-const {createUser,loginUser,createTask,allEmployee,allTask , updateLoc , delEmp ,updateStatus , delTask ,updateEmp , updateName , profile} = require('../controllers/field.controllers');
+const {
+    createUser,
+    loginUser,
+    createTask,
+    allEmployee,
+    allTask , 
+    updateLoc , 
+    delEmp ,
+    updateStatus , 
+    delTask ,
+    updateEmp , 
+    updateName , 
+    profile,
+    getTask
+} = require('../controllers/field.controllers');
 
 router.post('/register',createUser);
 router.post('/login',loginUser);
@@ -9,7 +23,8 @@ router.post('/admin/create-task',createTask);
 
 router.get('/all-employee' , allEmployee);
 router.get('/all-task', allTask);
-router.get('/me/:id' , profile)
+router.get('/me/:id' , profile);
+router.get('/task/:id' , getTask);
 
 router.patch('/update-loc/:id', updateLoc);
 router.patch('/status/:id' , updateStatus);

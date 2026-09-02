@@ -14,7 +14,8 @@ const {
     updateEmp , 
     updateName , 
     profile,
-    getTask
+    getTask,
+    myTask
 } = require('../controllers/field.controllers');
 
 router.post('/register',createUser);
@@ -25,6 +26,7 @@ router.get('/all-employee' , allEmployee);
 router.get('/all-task', allTask);
 router.get('/me/:id' , profile);
 router.get('/task/:id' , getTask);
+router.get('/myTask/:id' , myTask);
 
 router.patch('/update-loc/:id', updateLoc);
 router.patch('/status/:id' , updateStatus);

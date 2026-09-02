@@ -297,6 +297,25 @@ const getTask = async(req,res) => {
     }
 }
 
+//GET /myTask/:id
+const myTask = async(req,res) => {
+    try{
+        const emId = req.params;
+        console.log(emId);
+
+        const task = await Task.find({empId : {$eq : emId.id}});
+        console.log(task);
+
+        if(!task){
+            return res.status(400).json({msg : "no task is assigned"});
+        }
+
+        return res.status(200).json({msg : "all assigned tasks : ",task});
+    }catch(error){
+        console.log(error);
+        return res.status(404).json({msg : error});
+    }
+}
 
 module.exports = { 
     createUser, 
@@ -311,5 +330,6 @@ module.exports = {
     updateEmp , 
     updateName , 
     profile,
-    getTask
+    getTask,
+    myTask
 };

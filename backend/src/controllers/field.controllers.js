@@ -347,6 +347,35 @@ const postEvidence = async(req,res) => {
     }
 }
 
+//PATCH /accept/:id
+const updateAccept = async(req,res) => {
+    try{
+        const taskId = req.params;
+        console.log(taskId);
+
+        const task = await Task.findByIdAndUpdate(
+            taskId.id,
+            {
+                accept : true
+            },
+            {
+                returnDocument : 'after',
+                runValidators : true
+            }
+        );
+        console.log(task);
+
+        if(!task){
+            return res.status(400).json({msg : "task not found"})
+        }
+        return res.status(200).json({msg : "accept updated successfully" , task})
+    }catch(error){
+        return res.status(404).json({msg : error});
+    }
+}
+
+
+
 module.exports = { 
     createUser, 
     loginUser, 
@@ -362,5 +391,6 @@ module.exports = {
     profile,
     getTask,
     myTask,
-    postEvidence
+    postEvidence,
+    updateAccept
 };

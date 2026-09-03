@@ -374,6 +374,33 @@ const updateAccept = async(req,res) => {
     }
 }
 
+//16)PATCH /task-complete/:id
+const updateComplete = async(req,res) => {
+    try{
+        const taskId = req.params;
+        console.log(taskId);
+
+        const task = await Task.findByIdAndUpdate(
+            taskId.id,
+            {
+                status : "Completed"
+            },
+            {
+                returnDocument : 'after',
+                runValidators : true
+            }
+        );
+        console.log(task);
+
+        if(!task){
+            return res.status(400).json({msg : "task not found"})
+        }
+        return res.status(200).json({msg : "status updated successfully" , task})
+    }catch(error){
+        return res.status(404).json({msg : error});
+    }
+}
+
 
 
 module.exports = { 
@@ -392,5 +419,6 @@ module.exports = {
     getTask,
     myTask,
     postEvidence,
-    updateAccept
+    updateAccept,
+    updateComplete
 };

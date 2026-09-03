@@ -17,7 +17,8 @@ const {
     getTask,
     myTask,
     postEvidence,
-    updateAccept
+    updateAccept,
+    updateComplete
 } = require('../controllers/field.controllers');
 
 router.post('/register',createUser);
@@ -36,6 +37,7 @@ router.patch('/update-emp/:id' , updateEmp);
 router.patch('/update-name/:id' , updateName);
 router.patch('/update-evidence/:id',postEvidence);
 router.patch('/accept/:id',updateAccept);
+router.patch('/complete/:id',updateComplete);
 
 
 router.delete('/del/:id' , delEmp);

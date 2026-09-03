@@ -356,7 +356,8 @@ const updateAccept = async(req,res) => {
         const task = await Task.findByIdAndUpdate(
             taskId.id,
             {
-                accept : true
+                accept : true,
+                status : "Pending"
             },
             {
                 returnDocument : 'after',

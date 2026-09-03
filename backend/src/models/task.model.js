@@ -56,6 +56,10 @@ const taskSchema = new mongoose.Schema(
         accept: {
             type: Boolean,
             default: false
+        },
+        start:{
+            type : Boolean,
+            default : false
         }
     },
     {

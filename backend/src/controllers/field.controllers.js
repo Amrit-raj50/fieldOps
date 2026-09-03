@@ -375,16 +375,17 @@ const updateAccept = async(req,res) => {
     }
 }
 
-//16)PATCH /task-complete/:id
-const updateComplete = async(req,res) => {
+//17)PATCH /task-complete/:id
+const updateTask = async(req,res) => {
     try{
         const taskId = req.params;
         console.log(taskId);
+        const status = req.body;
 
         const task = await Task.findByIdAndUpdate(
             taskId.id,
             {
-                status : "Completed"
+                status : status
             },
             {
                 returnDocument : 'after',
@@ -421,5 +422,5 @@ module.exports = {
     myTask,
     postEvidence,
     updateAccept,
-    updateComplete
+    updateTask
 };

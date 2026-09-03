@@ -42,14 +42,22 @@ const taskSchema = new mongoose.Schema(
         },
         status: {
             type: String,
-            enum: ["Pending", "In Progress", "Completed", "Cancled"],
-            default: "pending",
+            enum: ["Pending", "In Progress", "Completed", "Cancled", "Rejected"],
+            default: "Pending",
         },
         empId: {
             type: String,
             default: null
         },
         evidence: {
+            type: String,
+            default: null
+        },
+        rejectReason: {
+            type: String,
+            default: null
+        },
+        cancelReason: {
             type: String,
             default: null
         },

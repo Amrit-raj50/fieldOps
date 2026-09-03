@@ -18,11 +18,15 @@ const {
     myTask,
     postEvidence,
     updateAccept,
-    updateTask
+    updateTask,
+    rejectTask,
+    cancelTask,
+    logoutUser
 } = require('../controllers/field.controllers');
 
 router.post('/register',createUser);
 router.post('/login',loginUser);
+router.post('/logout',logoutUser);
 router.post('/admin/create-task',createTask);
 
 router.get('/all-employee' , allEmployee);
@@ -37,10 +41,12 @@ router.patch('/update-emp/:id' , updateEmp);
 router.patch('/update-name/:id' , updateName);
 router.patch('/update-evidence/:id',postEvidence);
 router.patch('/accept/:id',updateAccept);
-router.patch('/complete/:id',updateTask);
+router.patch('/reject/:id',rejectTask);
+router.patch('/cancel/:id',cancelTask);
+router.patch('/task-update/:id',updateTask);
 
 
 router.delete('/del/:id' , delEmp);
 router.delete('/del-task/:id' , delTask);
 
-module.exports = router;
+module.exports = router;

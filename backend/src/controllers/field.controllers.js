@@ -375,17 +375,17 @@ const updateAccept = async(req,res) => {
     }
 }
 
-//17)PATCH /task-complete/:id
+//17)PATCH /task-update/:id
 const updateTask = async(req,res) => {
     try{
         const taskId = req.params;
         console.log(taskId);
-        const status = req.body;
+        const status = typeof req.body === 'object' && req.body.status ? req.body.status : (typeof req.body === 'string' ? req.body : req.body.status);
 
         const task = await Task.findByIdAndUpdate(
             taskId.id,
             {
-                status : status
+                status : status || req.body
             },
             {
                 returnDocument : 'after',
@@ -403,7 +403,69 @@ const updateTask = async(req,res) => {
     }
 }
 
+//18) PATCH /reject/:id
+const rejectTask = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { reason } = req.body;
 
+        const task = await Task.findByIdAndUpdate(
+            id,
+            {
+                accept: false,
+                status: 'Rejected',
+                rejectReason: reason || 'Rejected by employee'
+            },
+            {
+                returnDocument: 'after',
+                runValidators: true
+            }
+        );
+
+        if (!task) {
+            return res.status(400).json({ msg: 'task not found' });
+        }
+        return res.status(200).json({ msg: 'task rejected successfully', task });
+    } catch (error) {
+        return res.status(500).json({ msg: 'server error', error: error.message });
+    }
+};
+
+//19) PATCH /cancel/:id
+const cancelTask = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { reason } = req.body;
+
+        const task = await Task.findByIdAndUpdate(
+            id,
+            {
+                status: 'Cancelled',
+                cancelReason: reason || 'Cancelled by employee'
+            },
+            {
+                returnDocument: 'after',
+                runValidators: true
+            }
+        );
+
+        if (!task) {
+            return res.status(400).json({ msg: 'task not found' });
+        }
+        return res.status(200).json({ msg: 'task cancelled successfully', task });
+    } catch (error) {
+        return res.status(500).json({ msg: 'server error', error: error.message });
+    }
+};
+
+//20) POST /logout
+const logoutUser = async (req, res) => {
+    try {
+        return res.status(200).json({ msg: 'Logged out successfully' });
+    } catch (error) {
+        return res.status(500).json({ msg: 'server error', error: error.message });
+    }
+};
 
 module.exports = { 
     createUser, 
@@ -422,5 +484,8 @@ module.exports = {
     myTask,
     postEvidence,
     updateAccept,
-    updateTask
-};
+    updateTask,
+    rejectTask,
+    cancelTask,
+    logoutUser
+};

@@ -131,10 +131,10 @@ const allTask = async (req, res) => {
     }
 }
 
-//5b)GET /all-complains — fetch unassigned complaints (empId is null, accept is false)
+//5b)GET /all-complains — fetch unassigned complaints (empId is null, adminAccept is false)
 const allComplains = async (req, res) => {
     try {
-        const complains = await Task.find({ empId: null, accept: false });
+        const complains = await Task.find({ empId: null, adminAccept: false });
         return res.status(200).json({
             success: true,
             data: complains,
@@ -510,7 +510,7 @@ const assignComplain = async (req, res) => {
                 empId,
                 priority,
                 status: 'Pending',
-                accept: true,
+                adminAccept: true,   // admin approved the complaint
             },
             {
                 returnDocument: 'after',

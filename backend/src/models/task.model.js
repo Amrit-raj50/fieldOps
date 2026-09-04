@@ -63,7 +63,11 @@ const taskSchema = new mongoose.Schema(
         },
         accept: {
             type: Boolean,
-            default: false
+            default: false   // employee accepting the task
+        },
+        adminAccept: {
+            type: Boolean,
+            default: false   // admin accepting/approving a client complaint
         },
         start:{
             type : Boolean,

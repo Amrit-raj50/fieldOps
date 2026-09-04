@@ -1,16 +1,18 @@
 import { View, Text, Button, TextInput, StyleSheet, Alert } from 'react-native';
 import { useState } from 'react';
 import { userRegister } from '../api/auth';
-import {router} from 'expo-router';
+import { router } from 'expo-router';
+import { Picker } from '@react-native-picker/picker';
 
 export default function SignUp() {
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [role, setRole] = useState("");
 
   const handleRegistration = async () => {
-    if (!name || !email || !password) {
+    if (!name || !email || !password || !role) {
       Alert.alert(
         "error",
         "please fill all the fields"
@@ -24,6 +26,7 @@ export default function SignUp() {
         name: name,
         email: email,
         password: password,
+        role: role,
       });
 
       console.log("user registration successful.", result);
@@ -36,6 +39,7 @@ export default function SignUp() {
       setName("");
       setEmail("");
       setPassword("");
+      setRole("");
     } catch (error) {
       console.log("registration failed .", error);
     }
@@ -71,6 +75,28 @@ export default function SignUp() {
         onChangeText={setPassword}
         secureTextEntry
       />
+
+      <Picker
+        selectedValue={role}
+        onValueChange={(itemValue) => {
+          setRole(itemValue)
+        }}>
+        <Picker.Item
+          label="select your role"
+          value=""
+        />
+        <Picker.Item
+          label='admin'
+          value='Admin'
+        />
+        <Picker.Item
+          label="employee"
+          value="Employee" />
+        <Picker.Item
+          label="client"
+          value="Client" />
+
+      </Picker>
 
       <View style={styles.button}>
         <Button

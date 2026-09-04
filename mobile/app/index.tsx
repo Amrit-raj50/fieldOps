@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { router } from 'expo-router';
 import { userLogin } from '../api/auth';
 import AsyncStaorage from '@react-native-async-storage/async-storage';
+import { Picker } from '@react-native-picker/picker';
 
 export default function Login() {
 
@@ -117,13 +118,34 @@ export default function Login() {
             />
 
             {/* Role */}
-            <TextInput
+            {/* <TextInput
                 style={styles.input}
                 placeholder="role"
                 value={role}
                 onChangeText={setRole}
                 secureTextEntry
-            />
+            /> */}
+            <Picker
+                selectedValue={role}
+                onValueChange={(itemValue) => {
+                    setRole(itemValue)
+                }}>
+                <Picker.Item
+                    label="select your role"
+                    value=""
+                />
+                <Picker.Item
+                    label='admin'
+                    value='Admin'
+                />
+                <Picker.Item
+                    label="employee"
+                    value="Employee" />
+                <Picker.Item
+                    label="client"
+                    value="Client" />
+
+            </Picker>
 
             {/* Login */}
             <View style={styles.button}>

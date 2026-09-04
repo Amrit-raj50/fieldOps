@@ -20,6 +20,7 @@ type Task = {
     empId: string;
     location: string;
     start: boolean;
+    status: string;
 };
 
 type Employee = {
@@ -39,8 +40,8 @@ export default function TrackUser() {
         try {
             const [taskRes, empRes] = await Promise.all([allTask(), allEmp()]);
             
-            // Filter tasks that have been started
-            const activeTasks = (taskRes?.data || []).filter((t: Task) => t.start === true);
+            // Filter tasks that have been started and are not completed
+            const activeTasks = (taskRes?.data || []).filter((t: Task) => t.start === true && t.status !== 'Completed');
             setTasks(activeTasks);
             
             setEmployees(empRes?.data || []);

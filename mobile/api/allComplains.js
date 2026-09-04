@@ -16,6 +16,22 @@ export const allComplains = async () => {
     }
 };
 
+export const clientComplains = async (clientId) => {
+    try {
+        const response = await fetch(`${API_URI}api/user/client-complains/${clientId}`);
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.message || 'Failed to fetch client complaints');
+        }
+
+        return data;
+    } catch (error) {
+        console.log('Failed to fetch client complaints.', error.message);
+        throw error;
+    }
+};
+
 export const assignComplain = async (taskId, assignData) => {
     try {
         const response = await fetch(`${API_URI}api/user/assign-complain/${taskId}`, {

@@ -4,7 +4,7 @@ import * as Location from 'expo-location';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import MapView, { Marker } from 'react-native-maps';
 import { updateLoc } from '../../../api/updateLoc';
-import { Ionicons } from '@expo/vector-icons';
+// import { Ionicons } from '@expo/vector-icons';
 
 export default function EmployeeMap() {
     const [latitude, setLatitude] = useState<number | null>(null);

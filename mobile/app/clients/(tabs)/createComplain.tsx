@@ -2,6 +2,7 @@ import { View, Text, TextInput, Button, Alert, StyleSheet, TouchableOpacity, Act
 import { useState } from 'react';
 import * as Location from 'expo-location';
 import { Ionicons } from '@expo/vector-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 // import { allEmp } from '../../../api/allEmp';
 // import { Picker } from '@react-native-picker/picker';
 // import {task}
@@ -84,16 +85,20 @@ export default function Task() {
             )
         };
 
-        try{
+        try {
+            const userString = await AsyncStorage.getItem('user');
+            let currentClientId = null;
+            if (userString) {
+                const parsedUser = JSON.parse(userString);
+                currentClientId = parsedUser._id;
+            }
+
             const result = await complainCreation({
                 title : title,
                 description : des,
-                // employee : employee,
-                // priority : priority,
                 location : location,
                 dueDate : dueDate,
-                // status : status,
-                // empId : empId
+                clientId : currentClientId
             });
             console.log(title , des , location,dueDate);
 

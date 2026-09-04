@@ -3,7 +3,7 @@ import { View, StyleSheet, ActivityIndicator, Text, TouchableOpacity } from 'rea
 import { useLocalSearchParams, router } from 'expo-router';
 import MapView, { Marker } from 'react-native-maps';
 import { Ionicons } from '@expo/vector-icons';
-import { allEmp } from '../../../../api/allEmp';
+import { allEmp } from '../../../api/allEmp';
 
 type Employee = {
     _id: string;

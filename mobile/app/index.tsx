@@ -1,5 +1,5 @@
 import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
-import { useState ,useEffect} from 'react';
+import { useState, useEffect } from 'react';
 import { router } from 'expo-router';
 import { userLogin } from '../api/auth';
 import AsyncStaorage from '@react-native-async-storage/async-storage';
@@ -10,47 +10,47 @@ export default function Login() {
     const [password, setPassword] = useState("");
     const [role, setRole] = useState("");
 
-    const checkLogin = async() => {
-        try{
+    const checkLogin = async () => {
+        try {
             const user = await AsyncStaorage.getItem("user");
 
-            if(!user){
+            if (!user) {
                 return;
             }
 
             const parsedUser = JSON.parse(user);
 
-            if(parsedUser.role === 'admin'){
-                 router.replace("/admin/dashboard");
-            }if(parsedUser.role === 'employee'){
+            if (parsedUser.role === 'admin') {
+                router.replace("/admin/dashboard");
+            } else if (parsedUser.role === 'employee') {
                 router.replace("/employee/(tabs)");
-            }if(parsedUser.role === 'client'){
+            } else if (parsedUser.role === 'client') {
                 router.replace("/clients/(tabs)");
             }
 
-        }catch(error){
-            console.log("Error checking login : ",error);
+        } catch (error) {
+            console.log("Error checking login : ", error);
         }
     }
 
     useEffect(() => {
         checkLogin();
-    },[]);
-    
+    }, []);
 
-    const handleLogin = async() => {
-        if(!email || !password || !role){
+
+    const handleLogin = async () => {
+        if (!email || !password || !role) {
             Alert.alert(
                 "error",
                 "email or password is empty"
             )
         }
 
-        try{
+        try {
             const result = await userLogin({
-                email : email,
-                password : password,
-                role : role,
+                email: email,
+                password: password,
+                role: role,
             });
 
             await AsyncStaorage.setItem(
@@ -58,25 +58,28 @@ export default function Login() {
                 JSON.stringify(result.user)
             )
 
-            console.log("login successful :",result);
+            console.log("login successful :", result);
 
             Alert.alert(
                 "successful",
                 "successfully login"
             )
 
-            if(result.user.role === "admin"){
+            if (result.user.role === "admin") {
                 router.replace("/admin/dashboard");
-            }else{
+            } else if (result.user.role === "employee") {
                 router.replace("/employee/(tabs)");
+            } else if (result.user.role === "client") {
+                router.replace("/clients/(tabs)");
             }
+
 
             setEmail("");
             setPassword("");
             setRole("");
 
-        }catch(error){
-            console.log("login failed :",error)
+        } catch (error) {
+            console.log("login failed :", error)
 
             Alert.alert(
                 "error",

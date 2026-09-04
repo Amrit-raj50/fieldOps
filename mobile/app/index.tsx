@@ -22,8 +22,10 @@ export default function Login() {
 
             if(parsedUser.role === 'admin'){
                  router.replace("/admin/dashboard");
-            }else{
+            }if(parsedUser.role === 'employee'){
                 router.replace("/employee/(tabs)");
+            }if(parsedUser.role === 'client'){
+                router.replace("/clients/(tabs)");
             }
 
         }catch(error){

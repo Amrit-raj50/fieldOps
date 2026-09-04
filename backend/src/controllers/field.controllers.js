@@ -75,12 +75,12 @@ const createTask = async (req, res) => {
     }
 }
 
-//3)POST /admin/create-task
+//3)POST /admin/create-complain
 const createComplain = async (req, res) => {
     try {
         const { title, description, location, dueDate} = req.body;
 
-        const newTask = new Task({ title, description,location, dueDate,});
+        const newTask = new Task({ title, description,location, dueDate});
         await newTask.save();
 
         res.status(200).json({

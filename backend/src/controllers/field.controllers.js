@@ -4,9 +4,9 @@ const Task = require('../models/task.model');
 //1)post /api/user/register
 const createUser = async (req, res) => {
     try {
-        const { name, email, password } = req.body;
+        const { name, email, password , role} = req.body;
 
-        const newUser = new User({ name, email, password });
+        const newUser = new User({ name, email, password , role});
         await newUser.save();
 
         res.status(201).json({

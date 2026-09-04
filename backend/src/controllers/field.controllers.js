@@ -61,9 +61,9 @@ const loginUser = async (req, res) => {
 //3)POST /admin/create-task
 const createTask = async (req, res) => {
     try {
-        const { employee, priority,status ,empId} = req.body;
+        const { title, description, employee, priority, status, empId, location, dueDate } = req.body;
 
-        const newTask = new Task({ employee, priority, status , empId});
+        const newTask = new Task({ title, description, employee, priority, status, empId, location, dueDate });
         await newTask.save();
 
         res.status(200).json({
@@ -173,27 +173,17 @@ const updateLoc = async (req, res) => {
 }
 
 
-//7)PATCH /status/:id
+//7)PATCH /status/:id — kept for backward compat, delegates to updateTask logic
 const updateStatus = async (req, res) => {
     try {
         const { id } = req.params;
         const { status } = req.body;
         const task = await Task.findByIdAndUpdate(
             id,
-            {
-                status : status
-            },
-            {
-                returnDocument: 'after',
-                runValidators: true
-            }
+            { status },
+            { returnDocument: 'after', runValidators: true }
         );
-
-        if (!task) {
-            return res.status(401).json({
-                msg: 'task not found'
-            })
-        }
+        if (!task) return res.status(401).json({ msg: 'task not found' });
         res.status(200).json({ msg: 'status updated', task });
     } catch (error) {
         res.status(500).json({ msg: 'update failed', error: error.message });
@@ -262,28 +252,20 @@ const updateEmp = async (req, res) => {
     }
 }
 
-//11)PATCH /update-name/:id
+//11)PATCH /update-name/:id — updates the USER's name (not task)
 const updateName = async (req, res) => {
     try {
         const { id } = req.params;
         const { name } = req.body;
-        const task = await Task.findByIdAndUpdate(
+        const user = await User.findByIdAndUpdate(
             id,
-            {
-                name : name
-            },
-            {
-                returnDocument: 'after',
-                runValidators: true
-            }
+            { name },
+            { returnDocument: 'after', runValidators: true }
         );
-
-        if (!task) {
-            return res.status(401).json({
-                msg: 'task not found'
-            })
+        if (!user) {
+            return res.status(401).json({ msg: 'user not found' });
         }
-        res.status(200).json({ msg: 'name  updated', task });
+        res.status(200).json({ msg: 'name updated', user });
     } catch (error) {
         res.status(500).json({ msg: 'updation failed', error: error.message });
     }
@@ -528,6 +510,34 @@ const assignComplain = async (req, res) => {
     }
 };
 
+//22) PATCH /update-task-details/:id — admin updates employee, priority, dueDate on an in-progress task
+const updateTaskDetails = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { employee, empId, priority, dueDate } = req.body;
+
+        const updates = {};
+        if (employee  !== undefined) updates.employee  = employee;
+        if (empId     !== undefined) updates.empId     = empId;
+        if (priority  !== undefined) updates.priority  = priority;
+        if (dueDate   !== undefined) updates.dueDate   = dueDate;
+
+        const task = await Task.findByIdAndUpdate(
+            id,
+            updates,
+            { returnDocument: 'after', runValidators: true }
+        );
+
+        if (!task) {
+            return res.status(400).json({ msg: 'task not found' });
+        }
+
+        return res.status(200).json({ msg: 'task updated successfully', task });
+    } catch (error) {
+        return res.status(500).json({ msg: 'server error', error: error.message });
+    }
+};
+ 
 module.exports = { 
     createUser, 
     loginUser, 
@@ -551,5 +561,6 @@ module.exports = {
     cancelTask,
     logoutUser,
     createComplain,
-    assignComplain
+    assignComplain,
+    updateTaskDetails
 };

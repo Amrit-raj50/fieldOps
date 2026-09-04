@@ -24,7 +24,8 @@ const {
     logoutUser,
     createComplain,
     allComplains,
-    assignComplain
+    assignComplain,
+    updateTaskDetails
 } = require('../controllers/field.controllers');
 
 router.post('/register',createUser);
@@ -50,6 +51,7 @@ router.patch('/reject/:id',rejectTask);
 router.patch('/cancel/:id',cancelTask);
 router.patch('/task-update/:id',updateTask);
 router.patch('/assign-complain/:id', assignComplain);
+router.patch('/update-task-details/:id', updateTaskDetails);
 
 
 router.delete('/del/:id' , delEmp);

@@ -1,4 +1,5 @@
 import { allEmp } from "../../../api/allEmp";
+import { deleteEmp } from "../../../api/deleteEmp";
 import {
     View,
     Text,
@@ -10,6 +11,7 @@ import {
 } from 'react-native';
 import { useState, useEffect } from 'react';
 import { router } from 'expo-router';
+import { Ionicons } from '@expo/vector-icons';
 
 export default function Employee() {
 
@@ -42,6 +44,29 @@ export default function Employee() {
         handleEmp();
         setReFresh(false);
     }
+
+    const handleDelete = (id: string, name: string) => {
+        Alert.alert(
+            'Remove Employee',
+            `Are you sure you want to remove ${name}?`,
+            [
+                { text: 'Cancel', style: 'cancel' },
+                {
+                    text: 'Remove',
+                    style: 'destructive',
+                    onPress: async () => {
+                        try {
+                            await deleteEmp(id);
+                            setData(prev => prev.filter(e => e._id !== id));
+                            Alert.alert('Done', `${name} has been removed.`);
+                        } catch (error: any) {
+                            Alert.alert('Error', error.message || 'Failed to delete employee.');
+                        }
+                    },
+                },
+            ]
+        );
+    };
 
     const handleIndEmp = (id: string, name: string, email: string, password: string, phone: number, role: string, profileImage: string, isActive: boolean | string, lastLogin: Date | string) => {
 
@@ -79,8 +104,7 @@ export default function Employee() {
             {Array.isArray(data) &&
                 data.map((item, index) => {
                     return (
-
-                        <View key={index} >
+                        <View key={index}>
                             <TouchableOpacity style={styles.card}
                                 onPress={() => {
                                     handleIndEmp(item._id, item.name, item.email, item.password, item.phone, item.role, item.profileImage, item.isActive, item.lastLogin);
@@ -121,9 +145,7 @@ export default function Employee() {
                                                     : styles.inactiveText
                                             ]}
                                         >
-                                            {item.isActive
-                                                ? 'Active'
-                                                : 'InActive'}
+                                            {item.isActive ? 'Active' : 'InActive'}
                                         </Text>
                                     </View>
 
@@ -136,10 +158,16 @@ export default function Employee() {
                                     </Text>
 
                                 </View>
+
+                                {/* Delete button */}
+                                <TouchableOpacity
+                                    style={styles.deleteBtn}
+                                    onPress={() => handleDelete(item._id, item.name)}
+                                >
+                                    <Ionicons name="trash-outline" size={20} color="#dc2626" />
+                                </TouchableOpacity>
                             </TouchableOpacity>
                         </View>
-
-
                     )
                 })
             }
@@ -248,6 +276,12 @@ const styles = StyleSheet.create({
 
     inactiveText: {
         color: '#dc2626',
+    },
+
+    deleteBtn: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingHorizontal: 8,
     },
 
     date: {

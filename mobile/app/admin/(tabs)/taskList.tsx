@@ -1,14 +1,17 @@
 import { allTask } from '../../../api/allTask';
+import { deleteTask } from '../../../api/deleteTask';
 import {
     View,
     Text,
     StyleSheet,
     ScrollView,
     RefreshControl,
-    TouchableOpacity
+    TouchableOpacity,
+    Alert,
 } from 'react-native';
 import { useState, useEffect } from 'react';
 import { router } from 'expo-router';
+import { Ionicons } from '@expo/vector-icons';
 
 
 
@@ -34,12 +37,33 @@ export default function TaskList() {
         handletask();
     }, []);
 
-    //on refresh .. this will run .....
     const onRefresh = async () => {
         setReFreshing(true);
         await handletask();
         setReFreshing(false);
     }
+
+    const handleDeleteTask = (id: string, title: string) => {
+        Alert.alert(
+            'Delete Task',
+            `Delete "${title}"? This cannot be undone.`,
+            [
+                { text: 'Cancel', style: 'cancel' },
+                {
+                    text: 'Delete',
+                    style: 'destructive',
+                    onPress: async () => {
+                        try {
+                            await deleteTask(id);
+                            setData(prev => prev.filter((t: any) => t._id !== id));
+                        } catch (error: any) {
+                            Alert.alert('Error', error.message || 'Failed to delete task.');
+                        }
+                    },
+                },
+            ]
+        );
+    };
 
     const handleIndTask = (id: string | number, title: string, description: string, employee: string, priority: string, location: string, dueDate: string, status: string, empId : string) => {
         router.push({
@@ -76,7 +100,7 @@ export default function TaskList() {
                         <View key={index} style={styles.card}>
                             <TouchableOpacity
                                 onPress={() => {
-                                    handleIndTask(item._id, item.title, item.description, item.employee, item.priority, item.location, item.dueDate, item.status,item.empId)
+                                    handleIndTask(item._id, item.title, item.description, item.employee, item.priority, item.location, item.dueDate, item.status, item.empId)
                                 }}>
                                 <View style={styles.header}>
                                     <Text style={styles.title}>
@@ -93,43 +117,34 @@ export default function TaskList() {
                                 <View style={styles.divider} />
 
                                 <View style={styles.row}>
-                                    <Text style={styles.label}>
-                                        Employee
-                                    </Text>
-                                    <Text style={styles.value}>
-                                        {item.employee}
-                                    </Text>
+                                    <Text style={styles.label}>Employee</Text>
+                                    <Text style={styles.value}>{item.employee}</Text>
                                 </View>
                                 <View style={styles.row}>
-                                    <Text style={styles.label}>
-                                        EmployeeId
-                                    </Text>
-                                    <Text style={styles.value}>
-                                        {item.empId}
-                                    </Text>
+                                    <Text style={styles.label}>EmployeeId</Text>
+                                    <Text style={styles.value}>{item.empId}</Text>
                                 </View>
 
                                 <View style={styles.row}>
-                                    <Text style={styles.label}>
-                                        Location
-                                    </Text>
-                                    <Text style={styles.value}>
-                                        {item.location}
-                                    </Text>
+                                    <Text style={styles.label}>Location</Text>
+                                    <Text style={styles.value}>{item.location}</Text>
                                 </View>
 
                                 <View style={styles.row}>
-                                    <Text style={styles.label}>
-                                        Status
-                                    </Text>
-
+                                    <Text style={styles.label}>Status</Text>
                                     <View style={styles.statusBadge}>
-                                        <Text style={styles.statusText}>
-                                            {item.status}
-                                        </Text>
+                                        <Text style={styles.statusText}>{item.status}</Text>
                                     </View>
-                                    
                                 </View>
+                            </TouchableOpacity>
+
+                            {/* Delete */}
+                            <TouchableOpacity
+                                style={styles.deleteBtn}
+                                onPress={() => handleDeleteTask(item._id, item.title)}
+                            >
+                                <Ionicons name="trash-outline" size={16} color="#dc2626" />
+                                <Text style={styles.deleteBtnText}>Delete</Text>
                             </TouchableOpacity>
                         </View>
                     )
@@ -235,6 +250,23 @@ const styles = StyleSheet.create({
 
     statusText: {
         color: '#15803d',
+        fontSize: 12,
+        fontWeight: 'bold',
+    },
+
+    deleteBtn: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 5,
+        marginTop: 12,
+        alignSelf: 'flex-end',
+        backgroundColor: '#fee2e2',
+        paddingHorizontal: 12,
+        paddingVertical: 6,
+        borderRadius: 8,
+    },
+    deleteBtnText: {
+        color: '#dc2626',
         fontSize: 12,
         fontWeight: 'bold',
     },

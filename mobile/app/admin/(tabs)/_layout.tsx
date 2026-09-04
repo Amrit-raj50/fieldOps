@@ -74,9 +74,9 @@ export default function AdminTabsLayout() {
             <Tabs.Screen
                 name="addEmployee"
                 options={{
-                    title: 'Add Emp',
+                    title: 'In Progress',
                     tabBarIcon: ({ color, size }) => (
-                        <Ionicons name="person-add-outline" size={size} color={color} />
+                        <Ionicons name="hourglass-outline" size={size} color={color} />
                     ),
                 }}
             />

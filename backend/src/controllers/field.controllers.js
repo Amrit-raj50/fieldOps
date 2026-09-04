@@ -538,6 +538,24 @@ const updateTaskDetails = async (req, res) => {
     }
 };
  
+//23) PATCH /task-start/:id
+const updateStartTask = async(req, res) => {
+    try {
+        const taskId = req.params;
+        const task = await Task.findByIdAndUpdate(
+            taskId.id,
+            { start: true },
+            { returnDocument: 'after', runValidators: true }
+        );
+        if (!task) {
+            return res.status(400).json({ msg: 'task not found' });
+        }
+        return res.status(200).json({ msg: 'task start updated successfully', task });
+    } catch (error) {
+        return res.status(404).json({ msg: error.message });
+    }
+}
+
 module.exports = { 
     createUser, 
     loginUser, 
@@ -562,5 +580,6 @@ module.exports = {
     logoutUser,
     createComplain,
     assignComplain,
-    updateTaskDetails
+    updateTaskDetails,
+    updateStartTask
 };

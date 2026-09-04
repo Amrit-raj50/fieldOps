@@ -9,7 +9,7 @@ import {
     Alert,
 } from 'react-native';
 import { useLocalSearchParams, router } from 'expo-router';
-import { getTaskDetails, updateTaskStatus } from '../../../api/employeeTask';
+import { getTaskDetails, updateTaskStatus, updateStartTask } from '../../../api/employeeTask';
 import { Ionicons } from '@expo/vector-icons';
 
 export default function TaskDetails() {
@@ -42,6 +42,7 @@ export default function TaskDetails() {
         try {
             setActionLoading(true);
             await updateTaskStatus(id, 'In Progress');
+            await updateStartTask(id);
             Alert.alert('Task Started', 'Task status is now In Progress.');
             loadTask();
         } catch (error: any) {

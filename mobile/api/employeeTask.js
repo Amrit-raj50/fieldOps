@@ -112,3 +112,20 @@ export const cancelTask = async (taskId, reason) => {
         throw error;
     }
 };
+
+// PATCH /task-start/:id
+export const updateStartTask = async (taskId) => {
+    try {
+        const response = await fetch(`${API_URI}api/user/task-start/${taskId}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        const result = await response.json();
+        return result;
+    } catch (error) {
+        console.error('Error in updateStartTask:', error);
+        throw error;
+    }
+};

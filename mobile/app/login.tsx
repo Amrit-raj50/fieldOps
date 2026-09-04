@@ -136,14 +136,14 @@ export default function Login() {
                 />
                 <Picker.Item
                     label='admin'
-                    value='Admin'
+                    value='admin'
                 />
                 <Picker.Item
                     label="employee"
-                    value="Employee" />
+                    value="employee" />
                 <Picker.Item
                     label="client"
-                    value="Client" />
+                    value="client" />
 
             </Picker>
 

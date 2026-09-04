@@ -87,14 +87,14 @@ export default function SignUp() {
         />
         <Picker.Item
           label='admin'
-          value='Admin'
+          value='admin'
         />
         <Picker.Item
           label="employee"
           value="Employee" />
         <Picker.Item
           label="client"
-          value="Client" />
+          value="client" />
 
       </Picker>
 

@@ -1,5 +1,7 @@
-import { View, Text, TextInput, Button, Alert, StyleSheet } from 'react-native';
+import { View, Text, TextInput, Button, Alert, StyleSheet, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { useState } from 'react';
+import * as Location from 'expo-location';
+import { Ionicons } from '@expo/vector-icons';
 // import { allEmp } from '../../../api/allEmp';
 // import { Picker } from '@react-native-picker/picker';
 // import {task}
@@ -17,9 +19,52 @@ export default function Task() {
     // const [priority, setPriority] = useState("");
     const [location, setLocation] = useState("");
     const [dueDate, setDeuDate] = useState("");
+    const [loadingLocation, setLoadingLocation] = useState(false);
     // const [status, setStatus] = useState("");
     // const [empId , setEmpId] = useState("");
     // const [data, setData] = useState<Employee[]>([]);
+
+    const handleGetCurrentLocation = async () => {
+        try {
+            setLoadingLocation(true);
+            const { status } = await Location.requestForegroundPermissionsAsync();
+            if (status !== 'granted') {
+                Alert.alert("Permission Denied", "Permission to access location was denied.");
+                setLoadingLocation(false);
+                return;
+            }
+
+            const currentPos = await Location.getCurrentPositionAsync({
+                accuracy: Location.Accuracy.High,
+            });
+
+            const { latitude, longitude } = currentPos.coords;
+            const reverseGeocode = await Location.reverseGeocodeAsync({ latitude, longitude });
+
+            if (reverseGeocode && reverseGeocode.length > 0) {
+                const addressObj = reverseGeocode[0];
+                const parts = [
+                    addressObj.name,
+                    addressObj.street,
+                    addressObj.district || addressObj.subregion,
+                    addressObj.city,
+                    addressObj.region,
+                    addressObj.postalCode,
+                    addressObj.country
+                ].filter(Boolean);
+
+                const formattedAddress = parts.join(', ');
+                setLocation(formattedAddress || `${latitude}, ${longitude}`);
+            } else {
+                setLocation(`${latitude}, ${longitude}`);
+            }
+        } catch (error: any) {
+            console.log("Error fetching location:", error);
+            Alert.alert("Error", "Could not fetch current location. Please try again.");
+        } finally {
+            setLoadingLocation(false);
+        }
+    };
 
     // const handleEmp = async () => {
     //     const d = await allEmp();
@@ -193,13 +238,26 @@ export default function Task() {
                 </Picker>
             </View> */}
 
-            <TextInput
-                style={styles.input}
-                placeholder='Location'
-                value={location}
-                onChangeText={setLocation}
-                placeholderTextColor="#888"
-            />
+            <View style={styles.locationContainer}>
+                <TextInput
+                    style={[styles.input, styles.locationInput]}
+                    placeholder='Location'
+                    value={location}
+                    onChangeText={setLocation}
+                    placeholderTextColor="#888"
+                />
+                <TouchableOpacity
+                    style={styles.locationButton}
+                    onPress={handleGetCurrentLocation}
+                    disabled={loadingLocation}
+                >
+                    {loadingLocation ? (
+                        <ActivityIndicator size="small" color="#4f46e5" />
+                    ) : (
+                        <Ionicons name="location" size={22} color="#4f46e5" />
+                    )}
+                </TouchableOpacity>
+            </View>
 
             <TextInput
                 style={styles.input}
@@ -283,6 +341,25 @@ const styles = StyleSheet.create({
         fontSize: 16,
         marginBottom: 15,
         color: '#222',
+    },
+
+    locationContainer: {
+        position: 'relative',
+        justifyContent: 'center',
+    },
+
+    locationInput: {
+        paddingRight: 48,
+        marginBottom: 15,
+    },
+
+    locationButton: {
+        position: 'absolute',
+        right: 12,
+        top: 14,
+        padding: 4,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
 
     description: {

@@ -106,8 +106,8 @@ export default function SignUp() {
       </View>
       <View style={styles.button}>
         <Button
-          title='log in'
-          onPress={() => router.push("/")}
+          title="Login"
+          onPress={() => router.push('/login')}
         />
       </View>
 

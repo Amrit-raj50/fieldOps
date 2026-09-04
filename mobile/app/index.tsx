@@ -23,7 +23,7 @@ export default function Login() {
             if(parsedUser.role === 'admin'){
                  router.replace("/admin/dashboard");
             }else{
-                router.replace("/employee/task");
+                router.replace("/employee/(tabs)");
             }
 
         }catch(error){
@@ -66,7 +66,7 @@ export default function Login() {
             if(result.user.role === "admin"){
                 router.replace("/admin/dashboard");
             }else{
-                router.replace("/employee/task");
+                router.replace("/employee/(tabs)");
             }
 
             setEmail("");

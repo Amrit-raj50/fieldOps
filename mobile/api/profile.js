@@ -3,7 +3,7 @@ import { API_URI } from './config';
 // GET /me/:id
 export const getProfile = async (userId) => {
     try {
-        const response = await fetch(`${API_URI}/api/user/me/${userId}`);
+        const response = await fetch(`${API_URI}api/user/me/${userId}`);
         const result = await response.json();
         return result;
     } catch (error) {
@@ -15,7 +15,7 @@ export const getProfile = async (userId) => {
 // PATCH /update-name/:id
 export const updateProfileName = async (userId, name) => {
     try {
-        const response = await fetch(`${API_URI}/api/user/update-name/${userId}`, {
+        const response = await fetch(`${API_URI}api/user/update-name/${userId}`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
@@ -33,7 +33,7 @@ export const updateProfileName = async (userId, name) => {
 // POST /logout
 export const logoutApi = async () => {
     try {
-        const response = await fetch(`${API_URI}/api/user/logout`, {
+        const response = await fetch(`${API_URI}api/user/logout`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

@@ -3,7 +3,7 @@ import { API_URI } from './config';
 // GET /myTask/:id (all tasks for this employee)
 export const getMyTasks = async (empId) => {
     try {
-        const response = await fetch(`${API_URI}/api/user/myTask/${empId}`);
+        const response = await fetch(`${API_URI}api/user/myTask/${empId}`);
         const result = await response.json();
         return result;
     } catch (error) {
@@ -15,7 +15,7 @@ export const getMyTasks = async (empId) => {
 // GET /task/:id (task details)
 export const getTaskDetails = async (taskId) => {
     try {
-        const response = await fetch(`${API_URI}/api/user/task/${taskId}`);
+        const response = await fetch(`${API_URI}api/user/task/${taskId}`);
         const result = await response.json();
         return result;
     } catch (error) {
@@ -27,7 +27,7 @@ export const getTaskDetails = async (taskId) => {
 // PATCH /accept/:id
 export const acceptTask = async (taskId) => {
     try {
-        const response = await fetch(`${API_URI}/api/user/accept/${taskId}`, {
+        const response = await fetch(`${API_URI}api/user/accept/${taskId}`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
@@ -44,7 +44,7 @@ export const acceptTask = async (taskId) => {
 // PATCH /reject/:id
 export const rejectTask = async (taskId, reason) => {
     try {
-        const response = await fetch(`${API_URI}/api/user/reject/${taskId}`, {
+        const response = await fetch(`${API_URI}api/user/reject/${taskId}`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
@@ -62,7 +62,7 @@ export const rejectTask = async (taskId, reason) => {
 // PATCH /task-update/:id (e.g. status: "In Progress" or "Completed")
 export const updateTaskStatus = async (taskId, status) => {
     try {
-        const response = await fetch(`${API_URI}/api/user/task-update/${taskId}`, {
+        const response = await fetch(`${API_URI}api/user/task-update/${taskId}`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
@@ -80,7 +80,7 @@ export const updateTaskStatus = async (taskId, status) => {
 // PATCH /update-evidence/:id
 export const updateEvidence = async (taskId, evidence) => {
     try {
-        const response = await fetch(`${API_URI}/api/user/update-evidence/${taskId}`, {
+        const response = await fetch(`${API_URI}api/user/update-evidence/${taskId}`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
@@ -98,7 +98,7 @@ export const updateEvidence = async (taskId, evidence) => {
 // PATCH /cancel/:id
 export const cancelTask = async (taskId, reason) => {
     try {
-        const response = await fetch(`${API_URI}/api/user/cancel/${taskId}`, {
+        const response = await fetch(`${API_URI}api/user/cancel/${taskId}`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',

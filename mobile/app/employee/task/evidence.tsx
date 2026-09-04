@@ -12,17 +12,44 @@ import {
 import { useLocalSearchParams, router } from 'expo-router';
 import { updateEvidence, updateTaskStatus } from '../../../api/employeeTask';
 import { Ionicons } from '@expo/vector-icons';
+import { CameraView, useCameraPermissions } from 'expo-camera';
 
 export default function EvidencePage() {
     const { id } = useLocalSearchParams<{ id: string }>();
     const [evidenceInput, setEvidenceInput] = useState('');
     const [loading, setLoading] = useState(false);
 
-    // Mock quick photo capture simulation for field demonstration
-    const handleCaptureMockPhoto = () => {
-        const mockUrl = `https://fieldops-evidence.s3.amazonaws.com/evidence_${id}_${Date.now()}.jpg`;
-        setEvidenceInput(mockUrl);
-        Alert.alert('Photo Captured', 'Mock evidence photo captured and attached.');
+    const [cameraVisible, setCameraVisible] = useState(false);
+    const [permission, requestPermission] = useCameraPermissions();
+    const cameraRef = React.useRef<any>(null);
+
+    const handleOpenCamera = async () => {
+        if (!permission?.granted) {
+            const { granted } = await requestPermission();
+            if (!granted) {
+                Alert.alert('Permission Denied', 'Camera permission is required to capture evidence.');
+                return;
+            }
+        }
+        setCameraVisible(true);
+    };
+
+    const handleTakePicture = async () => {
+        if (cameraRef.current) {
+            try {
+                const photo = await cameraRef.current.takePictureAsync({
+                    quality: 0.5,
+                });
+                if (photo && photo.uri) {
+                    setEvidenceInput(photo.uri);
+                    setCameraVisible(false);
+                    Alert.alert('Photo Captured', 'Evidence photo has been attached.');
+                }
+            } catch (error) {
+                console.error("Camera capture error:", error);
+                Alert.alert('Error', 'Failed to capture photo.');
+            }
+        }
     };
 
     const handleSubmitEvidence = async () => {
@@ -56,6 +83,36 @@ export default function EvidencePage() {
         }
     };
 
+    if (cameraVisible) {
+        return (
+            <View style={styles.cameraContainer}>
+                <CameraView
+                    style={styles.camera}
+                    facing="back"
+                    ref={cameraRef}
+                >
+                    <View style={styles.cameraOverlay}>
+                        <TouchableOpacity
+                            style={styles.cameraCloseBtn}
+                            onPress={() => setCameraVisible(false)}
+                        >
+                            <Ionicons name="close" size={30} color="#fff" />
+                        </TouchableOpacity>
+                        
+                        <View style={styles.cameraControls}>
+                            <TouchableOpacity
+                                style={styles.captureBtnOuter}
+                                onPress={handleTakePicture}
+                            >
+                                <View style={styles.captureBtnInner} />
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </CameraView>
+            </View>
+        );
+    }
+
     return (
         <View style={styles.container}>
             {/* Header */}
@@ -78,11 +135,11 @@ export default function EvidencePage() {
                 {/* Photo Capture Box */}
                 <TouchableOpacity
                     style={styles.photoCaptureBox}
-                    onPress={handleCaptureMockPhoto}
+                    onPress={handleOpenCamera}
                 >
                     <Ionicons name="camera" size={48} color="#4f46e5" />
-                    <Text style={styles.captureText}>Tap to Capture / Select Photo</Text>
-                    <Text style={styles.captureSubText}>JPEG, PNG supported</Text>
+                    <Text style={styles.captureText}>Tap to Open Camera</Text>
+                    <Text style={styles.captureSubText}>Take a photo of the completed work</Text>
                 </TouchableOpacity>
 
                 {/* Evidence URL / Details Input */}
@@ -242,5 +299,44 @@ const styles = StyleSheet.create({
     },
     btnDisabled: {
         opacity: 0.6,
+    },
+    cameraContainer: {
+        flex: 1,
+        backgroundColor: '#000',
+    },
+    camera: {
+        flex: 1,
+    },
+    cameraOverlay: {
+        flex: 1,
+        backgroundColor: 'transparent',
+        justifyContent: 'space-between',
+        padding: 20,
+    },
+    cameraCloseBtn: {
+        alignSelf: 'flex-start',
+        marginTop: 40,
+        backgroundColor: 'rgba(0,0,0,0.5)',
+        padding: 10,
+        borderRadius: 25,
+    },
+    cameraControls: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        marginBottom: 30,
+    },
+    captureBtnOuter: {
+        width: 70,
+        height: 70,
+        borderRadius: 35,
+        backgroundColor: 'rgba(255, 255, 255, 0.3)',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    captureBtnInner: {
+        width: 54,
+        height: 54,
+        borderRadius: 27,
+        backgroundColor: '#fff',
     },
 });

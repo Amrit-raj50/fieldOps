@@ -22,7 +22,9 @@ const {
     rejectTask,
     cancelTask,
     logoutUser,
-    createComplain
+    createComplain,
+    allComplains,
+    assignComplain
 } = require('../controllers/field.controllers');
 
 router.post('/register',createUser);
@@ -33,6 +35,7 @@ router.post('/admin/create-complain',createComplain);
 
 router.get('/all-employee' , allEmployee);
 router.get('/all-task', allTask);
+router.get('/all-complains', allComplains);
 router.get('/me/:id' , profile);
 router.get('/task/:id' , getTask);
 router.get('/myTask/:id' , myTask);
@@ -46,6 +49,7 @@ router.patch('/accept/:id',updateAccept);
 router.patch('/reject/:id',rejectTask);
 router.patch('/cancel/:id',cancelTask);
 router.patch('/task-update/:id',updateTask);
+router.patch('/assign-complain/:id', assignComplain);
 
 
 router.delete('/del/:id' , delEmp);

@@ -131,6 +131,19 @@ const allTask = async (req, res) => {
     }
 }
 
+//5b)GET /all-complains — fetch unassigned complaints (empId is null, accept is false)
+const allComplains = async (req, res) => {
+    try {
+        const complains = await Task.find({ empId: null, accept: false });
+        return res.status(200).json({
+            success: true,
+            data: complains,
+        });
+    } catch (error) {
+        return res.status(500).json({ message: 'server error', error: error.message });
+    }
+}
+
 //6) PATCH /update-loc
 const updateLoc = async (req, res) => {
     try {
@@ -484,12 +497,44 @@ const logoutUser = async (req, res) => {
     }
 };
 
+//21) PATCH /assign-complain/:id — admin assigns a complaint to an employee
+const assignComplain = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { employee, empId, priority } = req.body;
+
+        const task = await Task.findByIdAndUpdate(
+            id,
+            {
+                employee,
+                empId,
+                priority,
+                status: 'Pending',
+                accept: true,
+            },
+            {
+                returnDocument: 'after',
+                runValidators: true,
+            }
+        );
+
+        if (!task) {
+            return res.status(400).json({ msg: 'complaint not found' });
+        }
+
+        return res.status(200).json({ msg: 'complaint assigned successfully', task });
+    } catch (error) {
+        return res.status(500).json({ msg: 'server error', error: error.message });
+    }
+};
+
 module.exports = { 
     createUser, 
     loginUser, 
     createTask, 
     allEmployee, 
-    allTask ,
+    allTask,
+    allComplains,
     updateLoc , 
     delEmp , 
     updateStatus , 
@@ -505,5 +550,6 @@ module.exports = {
     rejectTask,
     cancelTask,
     logoutUser,
-    createComplain
+    createComplain,
+    assignComplain
 };

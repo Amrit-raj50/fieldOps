@@ -26,7 +26,8 @@ const {
     allComplains,
     assignComplain,
     updateTaskDetails,
-    updateStartTask
+    updateStartTask,
+    clientComplains
 } = require('../controllers/field.controllers');
 
 router.post('/register',createUser);
@@ -38,6 +39,7 @@ router.post('/admin/create-complain',createComplain);
 router.get('/all-employee' , allEmployee);
 router.get('/all-task', allTask);
 router.get('/all-complains', allComplains);
+router.get('/client-complains/:id', clientComplains);
 router.get('/me/:id' , profile);
 router.get('/task/:id' , getTask);
 router.get('/myTask/:id' , myTask);

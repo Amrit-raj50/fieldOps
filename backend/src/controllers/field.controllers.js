@@ -78,9 +78,9 @@ const createTask = async (req, res) => {
 //3)POST /admin/create-complain
 const createComplain = async (req, res) => {
     try {
-        const { title, description, location, dueDate} = req.body;
+        const { title, description, location, dueDate, clientId } = req.body;
 
-        const newTask = new Task({ title, description,location, dueDate});
+        const newTask = new Task({ title, description, location, dueDate, clientId });
         await newTask.save();
 
         res.status(200).json({
@@ -89,6 +89,21 @@ const createComplain = async (req, res) => {
         });
     } catch (error) {
         res.status(500).json({ msg: 'creation failed', error: error.message });
+    }
+}
+
+// 3.5) GET /client-complains/:id
+const clientComplains = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const complaints = await Task.find({ clientId: id }).sort({ createdAt: -1 });
+
+        return res.status(200).json({
+            success: true,
+            data: complaints
+        });
+    } catch (error) {
+        res.status(500).json({ msg: 'failed to fetch client complaints', error: error.message });
     }
 }
 
@@ -579,7 +594,9 @@ module.exports = {
     cancelTask,
     logoutUser,
     createComplain,
+    allComplains,
     assignComplain,
     updateTaskDetails,
-    updateStartTask
+    updateStartTask,
+    clientComplains
 };

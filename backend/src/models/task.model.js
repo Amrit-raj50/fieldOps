@@ -16,13 +16,13 @@ const taskSchema = new mongoose.Schema(
         },
         employee: {
             type: String,
-            required: [true, "Employee is required"],
+            // required: [true, "Employee is required"],
             trim: true,
         },
         priority: {
             type: String,
             enum: ['Low', 'Medium', 'High'],
-            required: [true, "priority is required."],
+            // required: [true, "priority is required."],
             default: 'Medium',
         },
         location: {
@@ -32,7 +32,7 @@ const taskSchema = new mongoose.Schema(
         },
         dueDate: {
             type: Date,
-            reuired: [true, 'Due date is required.'],
+            required: [true, 'Due date is required.'],
             // validate : {
             //     validator:function (value){
             //         return value >= new Date().setHours(0,0,0,0);

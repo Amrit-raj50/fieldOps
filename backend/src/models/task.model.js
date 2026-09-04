@@ -72,6 +72,10 @@ const taskSchema = new mongoose.Schema(
         start:{
             type : Boolean,
             default : false
+        },
+        clientId:{
+            type: String,
+            default: null
         }
     },
     {

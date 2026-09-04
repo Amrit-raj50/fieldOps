@@ -21,13 +21,15 @@ const {
     updateTask,
     rejectTask,
     cancelTask,
-    logoutUser
+    logoutUser,
+    createComplain
 } = require('../controllers/field.controllers');
 
 router.post('/register',createUser);
 router.post('/login',loginUser);
 router.post('/logout',logoutUser);
 router.post('/admin/create-task',createTask);
+router.post('/admin/create-complain',createComplain);
 
 router.get('/all-employee' , allEmployee);
 router.get('/all-task', allTask);
@@ -49,4 +51,4 @@ router.patch('/task-update/:id',updateTask);
 router.delete('/del/:id' , delEmp);
 router.delete('/del-task/:id' , delTask);
 
-module.exports = router;
+module.exports = router;

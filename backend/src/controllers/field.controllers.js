@@ -61,9 +61,26 @@ const loginUser = async (req, res) => {
 //3)POST /admin/create-task
 const createTask = async (req, res) => {
     try {
-        const { title, description, employee, priority, location, dueDate, status ,empId} = req.body;
+        const { employee, priority,status ,empId} = req.body;
 
-        const newTask = new Task({ title, description, employee, priority, location, dueDate, status , empId});
+        const newTask = new Task({ employee, priority, status , empId});
+        await newTask.save();
+
+        res.status(200).json({
+            msg: 'task created successfully',
+            task: newTask
+        });
+    } catch (error) {
+        res.status(500).json({ msg: 'creation failed', error: error.message });
+    }
+}
+
+//3)POST /admin/create-task
+const createComplain = async (req, res) => {
+    try {
+        const { title, description, location, dueDate} = req.body;
+
+        const newTask = new Task({ title, description,location, dueDate,});
         await newTask.save();
 
         res.status(200).json({
@@ -487,5 +504,6 @@ module.exports = {
     updateTask,
     rejectTask,
     cancelTask,
-    logoutUser
-};
+    logoutUser,
+    createComplain
+};

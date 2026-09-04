@@ -23,10 +23,10 @@ const userSchema = new mongoose.Schema(
         role: {
             type: String,
             enum: {
-                values: ["admin", "employee"],
+                values: ["admin", "employee" , "client"],
                 message: "role must be asdmin or employee"
             },
-            default: "employee"
+            default: "client"
         },
         profileImage: {
             type: String,
